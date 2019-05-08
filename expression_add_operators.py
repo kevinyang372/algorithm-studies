@@ -55,3 +55,29 @@ def divide_into_numbers(num):
 
     return result
 
+def calculate(nums):
+
+    if len(nums) == 1:
+        return [int(nums[0])]
+
+    origin = int(nums[0])
+    res = calculate(nums[1:])
+
+    result = []
+    for i in res:
+        result.append(origin + i)
+        result.append(origin * i)
+        result.append(origin - i)
+
+    return result
+
+def expression_add_operators(nums, target):
+
+    expression_list = divide_into_numbers(nums)
+    sums = 0
+
+    for i in expression_list:
+        temp = calculate(i)
+        sums += sum([1 for t in temp if t == target])
+
+    return sums
