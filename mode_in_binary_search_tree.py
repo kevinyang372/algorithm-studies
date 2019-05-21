@@ -38,3 +38,31 @@ def findMode(root):
         dic_left[root.val] = 1
 
     return dic_left
+
+
+## DFS
+
+counts = defaultdict(int)
+stack = []
+curr = root
+# DFS
+while True:
+    while curr:
+        stack.append(curr)
+        counts[curr.val] += 1
+        curr = curr.left
+    if len(stack) == 0:
+        break
+    curr = stack.pop()
+    curr = curr.right
+
+# Find all the modes
+mode = -1
+curr_modes = []
+for c in counts:
+    if counts[c] ==mode:
+        curr_modes.append(c)
+    if counts[c] > mode:
+        mode = counts[c]
+        curr_modes = [c]         
+return curr_modes
