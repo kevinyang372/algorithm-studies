@@ -34,3 +34,10 @@ def minimumTotal(triangle):
     return minimum
 
 
+# Three line solution
+def minimumTotal(triangle):
+    last = triangle[-1]
+    for d in range(len(triangle)-2,-1,-1):
+        last = [triangle[d][i] + min(last[i], last[i+1]) for i in range(d+1)]
+    return last[0]
+
