@@ -22,3 +22,25 @@ def maxProduct(nums):
         times_total *= i
 
     return max(times_total, maxProduct(nums[1:]), maxProduct(nums[:-1]))
+
+
+# Dynamic Programming
+
+def maxProduct_dp(nums):
+
+    result = []
+    product_sum = [[None for i in range(len(nums))] for t in range(len(nums))]
+
+    for t in range(len(nums)):
+        for row in range(len(nums) - t):
+            col = row + t
+            if col == row:
+                product_sum[row][col] = nums[row]
+                result.append(nums[row])
+            else:
+                temp = product_sum[col][col] * product_sum[row][col - 1]
+                product_sum[row][col] = temp
+                result.append(temp)
+
+    return max(result)
+
