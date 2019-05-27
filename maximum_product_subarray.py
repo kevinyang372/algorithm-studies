@@ -28,7 +28,7 @@ def maxProduct(nums):
 
 def maxProduct_dp(nums):
 
-    result = []
+    max_result = max(nums)
     product_sum = [[None for i in range(len(nums))] for t in range(len(nums))]
 
     for t in range(len(nums)):
@@ -40,7 +40,7 @@ def maxProduct_dp(nums):
             else:
                 temp = product_sum[col][col] * product_sum[row][col - 1]
                 product_sum[row][col] = temp
-                result.append(temp)
+                max_result = max(max_result, temp)
 
-    return max(result)
+    return max_result
 
