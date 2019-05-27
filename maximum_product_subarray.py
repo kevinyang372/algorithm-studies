@@ -36,7 +36,6 @@ def maxProduct_dp(nums):
             col = row + t
             if col == row:
                 product_sum[row][col] = nums[row]
-                result.append(nums[row])
             else:
                 temp = product_sum[col][col] * product_sum[row][col - 1]
                 product_sum[row][col] = temp
