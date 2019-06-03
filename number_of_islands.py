@@ -54,10 +54,10 @@ def explore(m, n, islands, grid, counter):
         if n + 1 < len(islands[0]):
             explore(m, n + 1, islands, grid, counter)
 
-        if m - 1 >= 0:
+        if m > 0:
             explore(m - 1, n, islands, grid, counter)
 
-        if n - 1 >= 0:
+        if n > 0:
             explore(m, n - 1, islands, grid, counter)
 
 
