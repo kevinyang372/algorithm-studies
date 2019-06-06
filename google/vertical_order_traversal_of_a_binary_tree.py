@@ -20,26 +20,26 @@ def verticalTraversal(root):
 
     d = {}
 
-    stack = [(root, 0)]
+    stack = [(root, 0, 0)]
     min_val = 0
     max_val = 0
 
     while stack:
 
-        node, x = stack.pop(0)
+        node, x, level = stack.pop(0)
 
         min_val = min(x, min_val)
         max_val = max(x, max_val)
 
         if node.right:
-            stack.append((node.right, x + 1))
+            stack.append((node.right, x + 1, level + 1))
 
         if node.left:
-            stack.append((node.left, x - 1))
+            stack.append((node.left, x - 1, level + 1))
 
         if x in d.keys():
-            d[x].append(node.val)
+            d[x] = sorted(d[x] + [[level, node.val]])
         else:
-            d[x] = [node.val]
-
-    return [d[t] for t in range(min_val, max_val + 1)]
+            d[x] = [[level, node.val]]
+            
+    return [[d[t][m][1] for m in range(len(d[t]))] for t in range(min_val, max_val + 1)]
