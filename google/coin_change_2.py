@@ -42,4 +42,12 @@ def change(amount, coins):
     return [result[i] for i in range(len(result)) if result[i] != result[i - 1]] if len(result) > 1 else result
 
 
+def change_dp(amount, coins):
 
+    dic = [1] + [0 for _ in range(amount)]
+
+    for m in coins:
+        for t in range(m , len(dic)):
+            dic[t] += dic[t - m]
+
+    return dic[-1]
