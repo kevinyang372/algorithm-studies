@@ -26,10 +26,19 @@ def dailyTemperatures(T):
                 k -= 1
             k += 1
 
-        print(staging)
-                
+    return output
 
-    for m, n in staging:
-        output[m] = 0
+# improved stack solution
+
+def dailyTemperatures(T):
+
+    output = [0] * len(T)
+    stack = []
+
+    for i, t in enumerate(T):
+        while stack and T[stack[-1]] < t:
+            cur = stack.pop()
+            output[cur] = i - cur
+        stack.append(i)
 
     return output
