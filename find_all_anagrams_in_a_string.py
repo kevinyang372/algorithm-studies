@@ -44,12 +44,27 @@ def findAnagrams(s, p):
         count += 1
 
     val = [0] * len(s)
+    res = []
+    
     for key, v in enumerate(s):
         val[key] = d[v]
-
-    res = []
-    for i in range(len(val)):
-        if sum(val[i:i + len(p)]) == total:
-            res.append(i)
-
+        if key >= len(p) - 1:
+            if sum(val[key-len(p)+1:key+1]) == total:
+                res.append(key-len(p)+1)
+    
     return res
+
+
+# sliding window
+def findAnagrams(self, s, p):
+        res = []
+        pCounter = Counter(p)
+        sCounter = Counter(s[:len(p)-1])
+        for i in range(len(p)-1,len(s)):
+            sCounter[s[i]] += 1   # include a new char in the window
+            if sCounter == pCounter:    # This step is O(1), since there are at most 26 English letters 
+                res.append(i-len(p)+1)   # append the starting index
+            sCounter[s[i-len(p)+1]] -= 1   # decrease the count of oldest char in the window
+            if sCounter[s[i-len(p)+1]] == 0:
+                del sCounter[s[i-len(p)+1]]   # remove the count if it is 0
+        return res
