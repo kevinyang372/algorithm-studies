@@ -19,31 +19,52 @@
 
 def search(nums, target):
 
-    if nums[0] == target:
-        return 0
-    elif len(nums) == 1:
-        return -1
+    if not nums: return -1
 
-    print(nums)
+    if nums[-1] > nums[0]: return binary_search(nums, target)
 
-    length = len(nums)
-    pivot = nums[length // 2]
+    mid = len(nums) // 2
 
-    print(pivot)
+    if target == nums[mid]:
+        return target
 
-    if pivot == target:
-        return length // 2
-
-    if (pivot < target and target > nums[0]) or (pivot > target and target < nums[0] and pivot > nums[0]):
-        re = search(nums[length // 2:], target)
-        if re > 0:
-            return re + length // 2
+    if nums[mid] > nums[0]:
+        if target < nums[mid] and target >= nums[0]:
+            temp = binary_search(nums[:mid], target)
+            if temp < 0:
+                return -1
+            else:
+                return mid + temp + 1
         else:
-            return -1
+            return mid + search(nums[mid + 1:], target)
     else:
-        re = search(nums[:length // 2], target)
-        if re > 0:
-            return re
+        if target > nums[mid] and target <= nums[-1]:
+            temp = binary_search(nums[mid + 1:], target)
+            if temp < 0:
+                return -1
+            else:
+                return mid + temp + 1
         else:
-            return  -1
+            return search(nums[:mid], target)
+
+
+
+
+def binary_search(nums, target):
+        
+    first = -1
+    last = len(nums)
+
+    while first < last - 1:
+
+        mid = (first + last) // 2
+
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            first = mid
+        else:
+            last = mid
+
+    return -1
         
