@@ -32,3 +32,27 @@ def wordBreak(s, wordDict):
                 return True
 
     return False
+
+def wordBreak(s, wordDict):
+
+    if len(s) == 0: return False
+
+    mi = len(min(wordDict, key=len))
+    ma = len(max(wordDict, key=len))
+
+    dic = [[0] * len(wordDict) for _ in range(len(wordDict))]
+
+    for m in range(len(wordDict)):
+        for n in range(m, -1, -1):
+            if m - n < mi:
+                dic[m][n] = 0
+            elif m - n < ma and s[m : n + 1] in wordDict:
+                dic[m][n] = 1
+                continue
+            else:
+                for t in range(n - mi, mi - 2, -1):
+                    if dic[m][t] in wordDict and dic[t][0] == 1:
+                        dic[m][n] = 1
+                        break
+
+    return dic[0][len(wordDict) - 1] == 1
