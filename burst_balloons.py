@@ -15,7 +15,7 @@
 
 def maxCoins(nums):
 
-    if len(nums) == 1: return nums[0]
+    if len(nums) < 2: return nums[0] if nums else 0
         
     max_num = nums[0] * nums[1] + self.maxCoins(nums[1:])
 
@@ -24,4 +24,22 @@ def maxCoins(nums):
 
     max_num = max(nums[-1] * nums[-2] + self.maxCoins(nums[:-1]), max_num)
 
+    return max_num
+
+# dp with caching
+
+cache = {}
+    
+def maxCoins(self, nums):
+    if len(nums) < 2: return nums[0] if nums else 0
+    if tuple(nums) in self.cache: return self.cache[tuple(nums)]
+    
+    max_num = nums[0] * nums[1] + self.maxCoins(nums[1:])
+
+    for i in range(1, len(nums) - 1):
+        max_num = max(nums[i - 1] * nums[i + 1] * nums[i] + self.maxCoins(nums[:i] + nums[i+1:]), max_num)
+
+    max_num = max(nums[-1] * nums[-2] + self.maxCoins(nums[:-1]), max_num)
+
+    self.cache[tuple(nums)] = max_num
     return max_num
