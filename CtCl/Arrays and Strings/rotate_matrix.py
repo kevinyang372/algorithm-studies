@@ -7,3 +7,8 @@ def rotate_matrix(mat):
             mat[i][i + t], mat[i + t][len(mat) - i - 1], mat[len(mat) - i - 1][len(mat) - t - 1], mat[len(mat) - t - 1][i] = mat[len(mat) - t - 1][i], mat[i][i + t], mat[i + t][len(mat) - i - 1], mat[len(mat) - i - 1][len(mat) - t - 1]
 
     return mat
+
+# python one line
+
+def rotate_matrix(mat):
+    return [list(a) for a in zip(*mat[::-1])]
