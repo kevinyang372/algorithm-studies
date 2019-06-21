@@ -25,11 +25,28 @@ def diameterOfBinaryTree(root):
 
     return max(search(root.right, 0) + search(root.left, 0), diameterOfBinaryTree(root.right), diameterOfBinaryTree(root.left))
 
-
-
 def search(root, curr):
 
     if not root: return curr
 
     return max(search(root.left, curr + 1), search(root.right, curr + 1))
 
+
+
+# caching
+cache = {}
+
+def diameterOfBinaryTree(root):
+
+    if not root: return 0
+
+    return max(search(root.right, 0) + search(root.left, 0), diameterOfBinaryTree(root.right), diameterOfBinaryTree(root.left))
+
+def search(root, curr):
+
+    if not root: return curr
+    if head in cache: return cache[head] + curr + 1
+
+    val = max(search(head.left, 0), search(head.right, 0))
+    cache[head] = val
+    return val + curr + 1
