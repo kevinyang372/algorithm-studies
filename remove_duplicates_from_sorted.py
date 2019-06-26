@@ -3,14 +3,15 @@
 
 def removeDuplicates(nums):
 
-    i = 0
-
-    while i < len(nums) - 1:
-
-        if nums[i] == nums[i + 1]:
-            nums[:] = nums[:i + 1] + nums[i + 2:]
-            continue
-
-        i += 1
+    if not nums: return
+    if len(nums) < 2: return len(nums)
+    
+    ind = 0
+    
+    while ind < len(nums) - 1:
+        if nums[ind] == nums[ind + 1]:
+            nums.pop(ind)
+        else:
+            ind += 1
 
     return len(nums)
