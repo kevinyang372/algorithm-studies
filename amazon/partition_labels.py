@@ -28,3 +28,23 @@ def partitionLabels(S):
     cache[S] = min_list
     return min_list
 
+# O(N) Time O(N) Space
+def partitionLabels(S):
+
+    dic = {}
+    for k, v in enumerate(S):
+        dic[v] = k
+
+    res = []
+    count = 0
+    cur_max = 0
+
+    for k, v in enumerate(S):
+        count += 1
+        cur_max = max(cur_max, dic[v])
+
+        if k == cur_max:
+            res.append(count)
+            count = 0
+
+    return res
