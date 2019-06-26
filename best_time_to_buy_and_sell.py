@@ -38,3 +38,32 @@ def maxProfit_dp(prices):
 
     return max_p
 
+# O(N) Time and O(N) Space
+def maxProfit(prices):
+
+    if len(prices) < 2: return 0
+
+    max_p = [0] * len(prices)
+    max_p[-1] = prices[-1]
+
+    for i in reversed(range(len(prices) - 1)):
+        max_p[i] = max(max_p[i + 1], prices[i])
+
+    res = 0
+    for k, v in enumerate(prices):
+        res = max(res, max_p[k] - v)
+
+    return res
+
+# O(N) Time and O(1) Space
+def maxProfit(prices):
+
+    max_profit, min_price = 0, float('inf')
+
+    for i in prices:
+        min_price = min(i, min_price)
+        max_profit = max(max_profit, i - min_price)
+
+    return max_profit
+
+
