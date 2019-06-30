@@ -68,12 +68,12 @@ def parseBoolExpr(expression):
         store.append(innerphrase[ind:])
 
         if expression[0] == '|':
-            res = False:
+            res = False
             for i in store:
                 res = res or parseBoolExpr(i)
             return res
 
-       res = True:
+        res = True
         for i in store:
             res = res and parseBoolExpr(i)
         return res 
