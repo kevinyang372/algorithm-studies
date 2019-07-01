@@ -30,7 +30,7 @@ def calculate(s):
 
     start = -1
     end = -1
-    trans = {ord('+'): '-', ord('-'): '+'}
+    trans = {ord('+'): ord('-'), ord('-'): ord('+')}
 
     for k, v in enumerate(s):
         if v == '+':
@@ -48,4 +48,30 @@ def calculate(s):
                 curr = int(s[:k]) / int(s[k + 1:temp])
                 
             return calculate(str(curr) + s[temp:])
+
+
+# stack
+
+def calculate(s):
+
+    num, stack, sign = 0, [], "+"
+
+    for k, v in enumerate(s):
+        if v.isdigit():
+            num = num * 10 + int(v)
+        if v in "+-*/" or k == len(s) - 1:
+            if sign == "+":
+                stack.append(num)
+            elif sign == "-":
+                stack.append(-num)
+            elif sign == "*":
+                stack.append(stack.pop() * num)
+            else:
+                stack.append(stack.pop() // num)
+
+            sign = v
+            num = 0
+
+    return sum(stack)
+
 
