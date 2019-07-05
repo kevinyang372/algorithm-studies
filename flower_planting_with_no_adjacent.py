@@ -79,3 +79,18 @@ def find_unsolved(self):
         if self.d[t] == 0:
             return t
     return False
+
+# Greedy
+def gardenNoAdj(N, paths):
+
+    connect = collections.defaultdict(list)
+    res = [1] * N
+    
+    for i in paths:
+        connect[i[0]].append(i[1])
+        connect[i[1]].append(i[0])
+        
+    for k in connect.keys():
+        res[k - 1] = list({1,2,3,4} - set([res[t - 1] for t in connect[k]]))[0]
+        
+    return res
