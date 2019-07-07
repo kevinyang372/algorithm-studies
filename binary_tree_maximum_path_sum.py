@@ -69,3 +69,43 @@ def maxPathSearch(root):
         max_result = max(max_result, root.val + maxPathSearch(root.right))
 
     return max_result
+
+# cleaner code
+
+def maxPathSum(root):
+        
+        if not root: return 0
+        
+        max_sum = -float('inf')
+        stack = [root]
+        cache = {}
+        
+        def helper(root):
+            if not root: return 0
+            if root in cache: return cache[root]
+            
+            res = root.val
+            res += max(helper(root.left), helper(root.right), 0)
+            
+            cache[root] = res
+            return res
+        
+        while stack:
+            node = stack.pop()
+            current, temp1, temp2 = node.val, helper(node.left), helper(node.right)
+            
+            if temp1 > 0:
+                current += temp1
+                
+            if temp2 > 0:
+                current += temp2
+            
+            max_sum = max(max_sum, current)
+            
+            if node.left:
+                stack.append(node.left)
+                
+            if node.right:
+                stack.append(node.right)
+                
+        return max_sum
