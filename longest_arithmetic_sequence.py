@@ -48,3 +48,16 @@ def lengthOfLAS(nums):
 
     return max(LAS)
 
+# concise solution using dictionary
+
+def longestArithSeqLength(self, A):
+    if not A: return 0
+    
+    mat = {}
+    
+    for i in range(1, len(A)):
+        for t in range(i):
+            mat[i, A[i] - A[t]] = mat.get((t, A[i] - A[t]), 1) + 1
+                
+    return max(mat.values())
+
