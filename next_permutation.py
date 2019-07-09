@@ -33,3 +33,25 @@ def nextPermutation(nums):
         nums.reverse()
     else:
         nums[i:] = reversed(min_stack)
+
+
+# O(1) Space
+
+def nextPermutation(nums):
+        
+    if not nums: return
+    
+    j = len(nums) - 1
+    
+    while j > 0:
+        if nums[j] > nums[j - 1]:
+            temp = j - 1
+            while j < len(nums) and nums[j] > nums[temp]:
+                j += 1
+            nums[temp], nums[j - 1] = nums[j - 1], nums[temp]
+            nums[temp + 1:] = nums[temp + 1:][::-1]
+            return
+        j -= 1
+        
+    nums.reverse()
+    return
