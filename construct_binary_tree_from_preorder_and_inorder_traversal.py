@@ -56,3 +56,20 @@ def buildTree(self, preorder, inorder):
     root.right = self.buildTree(preorder[1+length:], inorder[ind + 1:])
     
     return root
+
+# optimization
+def buildTree(self, preorder, inorder):
+    
+    if not preorder: return
+    map_inorder = {}
+    for i,v in enumerate(inorder): map_inorder[v] = i
+
+    def helper(low, high):
+        if low > high: return
+        x = TreeNode(preorder.pop(0))
+        mid = map_inorder[x.val]
+        x.left = helper(low, mid - 1)
+        x.right = helper(mid + 1, high)
+        return x
+
+    return helper(0, len(inorder) - 1)

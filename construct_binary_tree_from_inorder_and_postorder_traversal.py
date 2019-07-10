@@ -35,3 +35,22 @@ class Solution(object):
         
         return root
         
+
+# O(N) time optimization
+def buildTree(inorder, postorder):
+
+    if not inorder: return
+
+    map_inorder = {}
+    for k, v in enumerate(inorder): map_inorder[v] = k
+
+    def helper(low, high):
+        if low > high: return
+        x = TreeNode(postorder.pop())
+        mid = map_inorder[x.val]
+        x.right = helper(mid + 1, high)
+        x.left = helper(low, mid - 1)
+
+        return x
+
+    return helper(0, len(inorder) - 1)
