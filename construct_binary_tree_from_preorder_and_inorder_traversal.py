@@ -42,3 +42,17 @@ def buildTree(preorder, inorder):
         root.right = buildTree(preorder[left:], inorder[loc + 1:])
 
     return root
+
+
+# simple recursion
+def buildTree(self, preorder, inorder):
+    
+    if not preorder: return
+    root = TreeNode(preorder[0])
+    ind = inorder.index(preorder[0])
+    length = len(inorder[:ind])
+    
+    root.left = self.buildTree(preorder[1:1+length], inorder[:ind])
+    root.right = self.buildTree(preorder[1+length:], inorder[ind + 1:])
+    
+    return root
