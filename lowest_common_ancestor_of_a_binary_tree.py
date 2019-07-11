@@ -56,3 +56,21 @@ def lowestCommonAncestor(root, p, q):
             stack.append([node.right, node])
         else:
             return par
+
+# optimized recursion
+def lowestCommonAncestor(root, p, q):
+        
+        if root == p or root == q:
+            return root
+        
+        left = right = None
+        
+        if root.left:
+            left = self.lowestCommonAncestor(root.left, p, q)
+        if root.right:
+            right = self.lowestCommonAncestor(root.right, p, q)
+            
+        if left and right:
+            return root
+        else:
+            return left or right
