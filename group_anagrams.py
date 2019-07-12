@@ -39,5 +39,9 @@ def groupAnagrams(strs):
 # Hash Maps
 def groupAnagrams(strs):
 
-    d = collections.Counter([tuple(sorted(s)) for s in strs])
-    return filter(lambda x: count([tuple(sorted(x))]) > 1, strs)
+    d = collections.defaultdict(list)
+        
+    for i in strs:
+        d[tuple(sorted(i))].append(i)
+        
+    return [d[i] for i in d.keys()]
