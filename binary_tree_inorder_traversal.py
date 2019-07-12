@@ -29,16 +29,25 @@ def inorderTraversal(root: TreeNode):
 
     return le + [curr] + ri
 
-def inorderTraversal(root:TreeNode):
-
-    res, stack = [], []
-
-    while True:
-        while root:
-            stack.append(root)
-            root = root.left
-        if not stack: return res
-        node = stack.pop()
-        res.append(node.val)
-        root = node.right
+# inorder traversal iterative
+def inorderTraversal(self, root):
+    if not root: return []
+    
+    stack = [root]
+    res = []
+    visited = set()
+    
+    while stack:
+        node = stack[-1]
+        
+        if node.left and node.left not in visited:
+            stack.append(node.left)
+        else:
+            res.append(node.val)
+            stack.pop()
+            visited.add(node)
+            if node.right:
+                stack.append(node.right)
+                
+    return res
 
