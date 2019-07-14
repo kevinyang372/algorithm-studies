@@ -20,9 +20,8 @@
 # 1 <= hours.length <= 10000
 # 0 <= hours[i] <= 16
 
-
 # TLE
-def longestWPI(self, hours):
+def longestWPI(hours):
         
     d = collections.defaultdict(int)
     d[-1] = 0
@@ -38,3 +37,19 @@ def longestWPI(self, hours):
                 break
                 
     return max_length
+
+# O(N) time
+def longestWPI(hours):
+
+    score = 0
+    res = 0
+    seen = {}
+
+    for i in range(len(hours)):
+        score += 1 if hours[i] > 8 else -1
+        seen.setdefault(score, i)
+
+        if score > 0: res = i + 1
+        if score - 1 in seen: res = max(res, i - seen[score - 1])
+
+    return res
