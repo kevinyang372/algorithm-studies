@@ -51,3 +51,28 @@ def flatten(root):
 
     current_node = temp
 
+def flatten(self, root):
+    def helper(node):
+        if not node: return
+        if node.left:
+            endpoint = helper(node.left)
+        else:
+            if node.right:
+                res = helper(node.right)
+                return res
+            else:
+                return node
+        
+        if node.right:
+            e2 = helper(node.right)
+        else:
+            e2 = endpoint
+        
+        endpoint.right = node.right
+        node.right = node.left
+        node.left = None
+        
+        return e2
+        
+    helper(root)
+
