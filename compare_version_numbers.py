@@ -51,8 +51,8 @@ def compareVersion(self, version1, version2):
 
         if s1 > s2:
             return 1
-        elif s2 < s1:
+        elif s1 < s2:
             return -1
         i += 1
-        
+
     return 0
