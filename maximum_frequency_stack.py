@@ -36,43 +36,55 @@
 # The total number of FreqStack.pop calls will not exceed 10000 in a single test case.
 # The total number of FreqStack.push and FreqStack.pop calls will not exceed 150000 across all test cases.
 
-class FreqStack:
+# TLE
+class FreqStack(object):
 
     def __init__(self):
+        self.stack = 0
+        self.freq = collections.Counter()
+        self.order = collections.defaultdict(list)
 
-        self.stack = []
-        self.count = {}
+    def push(self, x):
+        self.stack += 1
+        self.freq[x] += 1
+        self.order[x].append(self.stack)
 
-    def push(self, x: int) -> None:
+    def pop(self):
+        max_val = []
+        max_num = 0
+        for i, v in self.freq.items():
+            if v > 0:
+                if v > max_num:
+                    max_num = v
+                    max_val = i
+                elif v == max_num:
+                    max_val = max(i, max_val, key=lambda x: self.order[x][-1])
+                
+        self.freq[max_val] -= 1
+        self.order[max_val].pop()
+        
+        return max_val
 
-        self.stack.append(x)
+# stack with stack
+class FreqStack(object):
 
-        if x in self.count.keys():
-            self.count[x] += 1
-        else:
-            self.count[x] = 1
+    def __init__(self):
+        self.maxfreq = 0
+        self.freq = collections.Counter()
+        self.order = collections.defaultdict(list)
 
-    def pop(self) -> int:
+    def push(self, x):
+        f = self.freq[x] + 1
+        self.freq[x] = f
+        
+        if f > self.maxfreq:
+            self.maxfreq = f
+            
+        self.order[f].append(x)
 
-        maximum = self.find_max()
-
-        for i in range(len(self.stack) - 1, -1, -1):
-            if self.stack[i] in maximum:
-                self.count[self.stack[i]] -= 1
-                key = self.stack.pop(i)
-                break
-
-        return key
-
-    def find_max(self):
-
-        maximum = []
-        for i in self.count.keys():
-            if len(maximum) == 0:
-                maximum.append(i)
-            elif self.count[i] > self.count[maximum[0]]:
-                maximum = [i]
-            elif self.count[i] == self.count[maximum[0]]:
-                maximum.append(i)
-
-        return maximum
+    def pop(self):
+        val = self.order[self.maxfreq].pop()
+        self.freq[val] -= 1
+        if not self.order[self.maxfreq]:
+            self.maxfreq -= 1
+        return val
