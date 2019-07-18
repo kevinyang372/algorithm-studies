@@ -33,3 +33,21 @@ def reverseList(head):
     temp.append(head)
 
     return temp
+
+# iterative
+def reverseList(head):
+    if not head: return
+    
+    posterior = head.next
+    prior = None
+    
+    while posterior:
+        temp = posterior.next
+        head.next = prior
+        
+        prior = head
+        head = posterior
+        posterior = temp
+        
+    head.next = prior
+    return head
