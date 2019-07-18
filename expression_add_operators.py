@@ -21,63 +21,26 @@
 # Input: num = "3456237490", target = 9191
 # Output: []
 
-def divide_into_numbers(num):
-
-    if len(num) == 2:
-        return [[num[0], num[1]], [num]]
-
-    result = []
-
-    top = num[0]
-    without_top = divide_into_numbers(num[1:])
-
-    for i in without_top:
-
-        temp = i[:]
-        temp[0] = top + temp[0]
-        result.append(temp)
-
-        result.append([top] + i)
-
-    bottom = num[-1]
-    without_bottom = divide_into_numbers(num[:-1])
-
-    for i in without_bottom:
-
-        temp = i[:]
-        temp[-1] = temp[-1] + bottom
-        result.append(temp)
-
-        result.append(i + [bottom])
-
-    result = sorted(result)
-    result = [result[i] for i in range(len(result)) if i == 0 or result[i] != result[i-1]]
-
-    return result
-
-def calculate(nums):
-
-    if len(nums) == 1:
-        return [int(nums[0])]
-
-    origin = int(nums[0])
-    res = calculate(nums[1:])
-
-    result = []
-    for i in res:
-        result.append(origin + i)
-        result.append(origin * i)
-        result.append(origin - i)
-
-    return result
-
-def expression_add_operators(nums, target):
-
-    expression_list = divide_into_numbers(nums)
-    sums = 0
-
-    for i in expression_list:
-        temp = calculate(i)
-        sums += sum([1 for t in temp if t == target])
-
-    return sums
+# TLE
+def addOperators(self, num, target):
+    if not num: return
+    
+    d = [num[0]]
+    res = set()
+    
+    for i in range(1, len(num)):
+        temp = []
+        for t in d:
+            for sig in ["", "+", "-", "*"]:
+                if sig == "" and t[-1] == '0' and (len(t) < 2 or not t[-2].isdigit()):
+                    continue
+                if i < len(num) - 1:
+                    temp.append("%s%s%s" % (t, sig, num[i]))
+                    
+                if num[i] != '0' or i == len(num) - 1:
+                    tes = "%s%s%s" % (t, sig, num[i:])
+                    if eval(tes) == target:
+                        res.add(tes)
+        d = temp
+    
+    return list(res)
