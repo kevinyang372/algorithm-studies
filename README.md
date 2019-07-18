@@ -42,3 +42,25 @@ B = ['A','B','C']
 ### Tips
 * Filing an array from the front is slower than from behind (append)
 * Overwritting is more time efficient than deleting
+
+## Strings
+
+### Time Complexities
+Strings are immutable
+* Concatenating a single character - O(N)
+
+### Key Functions
+* `s.strip()`: remove the starting and ending empty spaces
+* `s.startswith(prefix)` and `s.endswith(suffix)`
+* `s.tolower()`
+
+## Linked Lists
+
+### Time Complexities
+* Insertion and deletion - O(1)
+* Obtaining the kth element - O(N)
+
+### Tips
+* Use a _dummy head_ (with null value) to avoid having to check for empty lists
+* Algorithms on linked lists usually benefit from using two iterators with one move faster than the other
+
