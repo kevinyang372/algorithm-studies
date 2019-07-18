@@ -11,24 +11,15 @@
 # Output: -1
 # Note:
 # You may assume that you have an infinite number of each kind of coin.
-
-cache = {}
     
 def coinChange(self, coins, amount):
-    if amount in cache: return cache[amount]
-    if amount < min(coins): return -1
-    if amount in coins: return 1
-
-    min_num = float('inf')
-
-    for i in coins:
-        temp = coinChange(coins, amount - i)
-        if temp > 0:
-            min_num = min(min_num, 1 + temp)
+    d = [-1] * (amount + 1)
+    d[0] = 0
+    start = min(coins)
     
-    if min_num == float('inf'):
-        min_num = -1
+    for i in range(start, len(d)):
+        temp = [d[i - t] for t in coins if i >= t and d[i - t] >= 0]
+        if temp:
+            d[i] = min(temp) + 1
     
-    cache[amount] = min_num
-    
-    return min_num
+    return d[-1]
