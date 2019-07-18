@@ -12,34 +12,17 @@
 # Explanation: Intervals [1,4] and [4,5] are considered overlapping.
 
 def merge(intervals):
-    if len(intervals) == 0: return []
-
-    m = 1
-    while m < len(intervals):
-
-        for n in range(m, 0, -1):
-            temp = canmerge(intervals[n], intervals[n - 1])
-            
-            if temp:
-                intervals[n - 1] = temp
-                intervals.pop(n)
-                m -= 2
-                break
-            elif intervals[n][0] < intervals[n - 1][1]:
-                intervals[n], intervals[n - 1] = intervals[n - 1], intervals[n]
-                
-        m += 1
-
-    return intervals
-
-
-def canmerge(int1, int2):
+    if not intervals: return 
+        
+    intervals = sorted(intervals)
+    i = 0
     
-    diff1 = int1[1] - int1[0]
-    diff2 = int2[1] - int2[0]
-    diff = abs(max(int2[1], int1[1]) - min(int1[0], int2[0]))
-
-    if diff <= diff1 + diff2:
-        return [min(int1[0], int2[0]), max(int1[1], int2[1])]
-
-    return False
+    while i < len(intervals) - 1:
+        if intervals[i][1] >= intervals[i + 1][0]:
+            temp = max(intervals[i + 1][1], intervals[i][1])
+            intervals[i] = [intervals[i][0], temp]
+            intervals.pop(i + 1)
+        else:
+            i += 1
+    
+    return intervals
