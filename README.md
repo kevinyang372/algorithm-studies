@@ -1,6 +1,6 @@
 # Elements of Programming Interviews in Python
 
-## Arrays
+## 1. Arrays
 
 ### Time Complexities
 * Retrieval and update - O(1)
@@ -43,7 +43,7 @@ B = ['A','B','C']
 * Filing an array from the front is slower than from behind (append)
 * Overwritting is more time efficient than deleting
 
-## Strings
+## 2. Strings
 
 ### Time Complexities
 Strings are immutable
@@ -55,7 +55,7 @@ Strings are immutable
 * `s.tolower()`
 * `s.isalnum()`: check if the string contains only alphanumeric character ('a-z/A-Z')
 
-## Linked Lists
+## 3. Linked Lists
 
 ### Time Complexities
 * Insertion and deletion - O(1)
@@ -64,6 +64,83 @@ Strings are immutable
 ### Tips
 * Use a _dummy head_ (with null value) to avoid having to check for empty lists
 * Algorithms on linked lists usually benefit from using two iterators with one move faster than the other
+
+## 4. Stacks And Queues
+
+Stacks: LIFO (Last in first out)
+
+Queues: FIFO (First in first out)
+
+### Stack: Design A Stack That Includes A Max Operation
+* Using heap / BST / Hash Table - time complexity could be reduced to O(logN) / space complexity increases to O(N)
+* Using single variable to record the max is very time consuming on popping action
+* Improve time complexity by caching (Every insertion records the element as well as the current max)
+
+## 5. Binary Trees
+
+### Traversing
+* Inorder traversal (left - root - right)
+* Preorder traversal (root - left - right)
+* Postorder traversal (left - right - root)
+* Morris inorder traversal (inorder traversal with constant space)
+
+Morris inorder traversal
+```python
+def morrisInorder(root):
+
+    res = []
+
+    while root:
+        if not root.left:
+            res.append(root.val)
+            root = root.right
+        else:
+            predecessor = find_predecessor(root.left)
+
+            if not predecessor.right:
+                predecessor.right = root # link node to remember the sequence
+                root = root.left
+            else:
+                predecessor.right = None
+                res.append(root.val)
+                root = root.right
+
+    return res
+
+def find_predecessor(root):
+    base = root.val
+    while root.right and root.right.val < base:
+        root = root.right
+
+    return root
+```
+
+Iterative Inorder traversal
+```python
+def inorderTraversal(self, root):
+    if not root: return []
+    
+    stack = [root]
+    res = []
+    visited = set()
+    
+    while stack:
+        node = stack[-1]
+        
+        if node.left and node.left not in visited: #check if left child has been visited
+            stack.append(node.left)
+        else:
+            res.append(node.val)
+            stack.pop()
+            visited.add(node)
+            if node.right:
+                stack.append(node.right)
+                
+    return res
+```
+
+### Time Complexities
+Most tree problems could be solved with recursion, whose time complexity depends on the depth of recursion (O(h) - h is the tree height). Notice this could be translated to `O(logN)` for balanced trees and `O(N)` for skewed trees.
 
 ## Tricky Questions
 
