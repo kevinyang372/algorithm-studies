@@ -52,7 +52,7 @@ Strings are immutable
 ### Key Functions
 * `s.strip()`: remove the starting and ending empty spaces
 * `s.startswith(prefix)` and `s.endswith(suffix)`
-* `s.tolower()`
+* `s.lower()`
 * `s.isalnum()`: check if the string contains only alphanumeric character ('a-z/A-Z')
 
 ## 3. Linked Lists
