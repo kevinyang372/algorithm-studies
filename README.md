@@ -167,3 +167,25 @@ def countPrimes(n):
 
     return sum(filled)
 ```
+
+### Greatest Common Divisor of Strings
+Input: str1 = "ABCABC", str2 = "ABC"<br>
+Output: "ABC"
+1. Initially, set str1 to be the longer string and str2 to be the shorter string
+2. Check if str2 is the prefix of str1
+3. Recursively check for the remainder of str1 and str2
+
+```python
+def gcdOfStrings(str1, str2):
+
+    if len(str1) == len(str2):
+        return str1 if str1 == str2 else ''
+    else:
+        if len(str1) < len(str2):
+            str1, str2 = str2, str1
+
+        if str1[:len(str2)] == str2:
+            return gcdOfStrings(str1[len(str2):], str2)
+        else:
+            return ''
+```
