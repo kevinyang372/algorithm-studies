@@ -38,6 +38,7 @@ A = [1,3,5]
 B = ['A','B','C']
 [(x, y) for x in A for y in B]
 ```
+* (set) `A.issubset(B)` - check if a set is the subset of another
 
 ### Tips
 * Filing an array from the front is slower than from behind (append)
