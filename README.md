@@ -144,6 +144,28 @@ def inorderTraversal(self, root):
 ### Time Complexities
 Most tree problems could be solved with recursion, whose time complexity depends on the depth of recursion (O(h) - h is the tree height). Notice this could be translated to `O(logN)` for balanced trees and `O(N)` for skewed trees.
 
+## 6. Heaps
+
+_heap property_: the key at each node is at least as great as the keys stored at its children
+
+### Time Complexities
+* Insertion - O(logN)
+* Lookup for max/min - O(1)
+* Deletion of max/min - O(logN)
+* Searching for arbitrary keys - O(N)
+
+### Key Functions
+* `heapq.heapify(L)`: transforms the element in L into a heap in-place
+* `heapq.nlargest(k, L)` / `heapq.nsmallest(k, L)`: returns k largest/smallest elements in L
+* `heapq.heappush(h, e)`: pushes a new element on the heap
+* `heapq.heappop(h)`: pops the smallest element from the heap
+* `heapq.heappushpop(h, a)`: pushes a on the heap and then pops the smallest element
+* `e = h[0]`: returns the smallest element on the heap
+
+### Tips:
+* Use a heap when all you care about is the largest or smallest elements (with no need to support fast lookup / search / delete for arbitrary elements)
+* A heap is a good choice when you need to compute k largest or k smallest elements
+
 ## Tricky Questions
 
 ### Finding All Prime Numbers within a Given Limit - Sieve of Eratosthenes
