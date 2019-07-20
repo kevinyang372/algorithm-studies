@@ -54,6 +54,7 @@ Strings are immutable
 * `s.startswith(prefix)` and `s.endswith(suffix)`
 * `s.lower()`
 * `s.isalnum()`: check if the string contains only alphanumeric character ('a-z/A-Z')
+* `s.count(substring)`: count the number of substrings that exist in the given string
 
 ## 3. Linked Lists
 
