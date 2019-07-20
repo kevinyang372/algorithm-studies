@@ -54,3 +54,23 @@ def maxDistToClosest(self, seats):
             max_d = max(max_d, temp)
             
     return max_d
+
+# one pass
+def maxDistToClosest(self, seats):
+
+    left, count, max_d = -1, 0, 1
+
+    for i, v in enumerate(seats):
+        if v == 0:
+            count += 1
+        else:
+            if left < 0:
+                distance = count
+            else:
+                distance = count // 2 + count % 2
+
+            left = i
+            count = 0
+            max_d = max(max_d, distance)
+
+    return max(max_d, count)
