@@ -48,3 +48,26 @@ def partitionLabels(S):
             count = 0
 
     return res
+
+# solve with intervals
+def partitionLabels(self, S):
+        
+    intervals = []
+    d = {}
+    
+    for i, v in enumerate(S):
+        if v in d:
+            intervals[d[v]][1] = i
+        else:
+            d[v] = len(intervals)
+            intervals.append([i, i])
+    
+    m = 0
+    while m < len(intervals) - 1:
+        if intervals[m][1] > intervals[m + 1][0]:
+            intervals[m] = [intervals[m][0], max(intervals[m + 1][1], intervals[m][1])]
+            intervals.pop(m + 1)
+        else:
+            m += 1
+    
+    return [y - x + 1 for (x, y) in intervals]
