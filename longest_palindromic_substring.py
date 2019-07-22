@@ -70,3 +70,18 @@ def longestPalindrome(s:str) -> str:
             j += 1
         step += 1
     return s[substring[0]: substring[1]+1]
+
+# bfs TLE
+def longestPalindrome(self, s):
+        
+    rev = s[::-1]
+    stack = [[s, rev]]
+    
+    while stack:
+        s1, s2 = stack.pop(0)
+        if s1 == s2:
+            return s1
+        stack.append([s1[1:], s2[:-1]])
+        stack.append([s1[:-1], s2[1:]])
+    
+    return ""
