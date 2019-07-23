@@ -166,6 +166,51 @@ _heap property_: the key at each node is at least as great as the keys stored at
 * Use a heap when all you care about is the largest or smallest elements (with no need to support fast lookup / search / delete for arbitrary elements)
 * A heap is a good choice when you need to compute k largest or k smallest elements
 
+## 7. Searching
+
+### Binary Search - Elimination-based Strategy
+
+```python
+def bsearch(t, A):
+  L, U = 0, len(A) - 1
+  while L <= U:
+    M = L + (U - L) / 2 # Using (U + L) // 2 may cause overflow
+    if A[M] > t:
+      L = M + 1
+    elif A[M] == t:
+      return M
+    else:
+      U = M - 1
+  return -1
+```
+
+### Search a Sorted Array for First Occurrence of k
+Naive Solution: Use binary search to find k. Then continue from the resulting index forward until it does not equal to k.
+* Average Time Complexity: O(logN)
+* Worst-case Time Complexity: O(N)
+
+Improved Solution: Use binary search to find k. Record the occurrence and continue to use binary search.
+* Average Time Complexity: O(logN)
+* Worst-case Time Complexity: O(logN)
+
+```python
+def findFirstOccurrence(t, A):
+  L, U = 0, len(A) - 1
+  occurrence = len(A)
+  
+  while L <= U:
+    M = L + (U - L) / 2
+    if A[M] > t:
+      L = M + 1
+    elif A[M] == t:
+      occurrence = M
+      U = M - 1
+    else:
+      U = M - 1
+      
+  return occurrence 
+```
+
 ## Tricky Questions
 
 ### Finding All Prime Numbers within a Given Limit - Sieve of Eratosthenes
