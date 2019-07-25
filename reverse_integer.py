@@ -21,3 +21,15 @@ def reverse_integer(inp):
         new_inp += digits[i] * 10 ** (len(digits) - i - 1)
 
     return -new_inp if is_negative else new_inp
+
+def reverse(x):
+    if x < 0:
+        return -reverse(-x)
+    
+    temp = []
+    while x > 0:
+        temp.append(x % 10)
+        x //= 10
+    
+    res = sum([v * 10 ** i for i, v in enumerate(temp[::-1])])
+    return res if res < 2**31 else 0
