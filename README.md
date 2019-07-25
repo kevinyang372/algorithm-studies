@@ -141,6 +141,58 @@ def inorderTraversal(self, root):
     return res
 ```
 
+Segment Tree (For Range Sum questions)
+```python
+class SegmentTreeNode(object):
+  def __init__(self, val, start, end):
+    self.start = start
+    self.end = end
+    self.sums = val # can also be max / min
+    self.left = None
+    self.right = None
+    
+# O(N) time
+def buildTree(start, end, vals):
+  if start == end:
+    return SegmentTreeNode(vals[start], start, end)
+  mid = (start + end) // 2
+  left = buildTree(start, mid, vals)
+  right = buildTree(mid + 1, end, vals)
+  
+  cur = SegmentTreeNode(left.sums + right.sums, start, end)
+  cur.left = left
+  cur.right = right
+  
+  return cur
+
+# O(logN) time
+def updateTree(root, index, val):
+  if root.start == root.end == index:
+    root.sums = val
+    return root
+  mid = (root.start + root.end) // 2
+  
+  if index > mid:
+    updateTree(root.right, index, val)
+  else:
+    updateTree(root.left, index, val)
+   
+  root.sums = root.left.sums + root.right.sums
+  
+# O(logN + k) time
+def querySum(root, i, j):
+  if root.start == i and root.end == j:
+    return root.sums
+  mid = (root.start + root.end) // 2
+  
+  if i > mid:
+    return querySum(root.right, i, j)
+  elif j <= mid:
+    return querySum(root.left, i, j)
+  else:
+    return querySum(root.left, i, mid) + querySum(root.right, mid + 1, j)
+```
+
 ### Time Complexities
 Most tree problems could be solved with recursion, whose time complexity depends on the depth of recursion (O(h) - h is the tree height). Notice this could be translated to `O(logN)` for balanced trees and `O(N)` for skewed trees.
 
