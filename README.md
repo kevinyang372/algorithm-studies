@@ -309,3 +309,15 @@ def gcdOfStrings(str1, str2):
         else:
             return ''
 ```
+
+### Reverse Bits
+Reverse bits of a given 32 bits unsigned integer.
+
+```python
+def reverseBits(n)
+  res = 0
+  for _ in range(32):
+    res = (res << 1) + (1 & n) # notice the parentheses here as bit operation has low priority
+    n >>= 1
+  return n
+```
