@@ -263,6 +263,31 @@ def findFirstOccurrence(t, A):
   return occurrence 
 ```
 
+### Standard BFS:
+DFS could be done with simple recursion. But BFS needs to be done with queues.
+
+```python
+def bfs(d):
+  dist, m, n = 1, nRows, nColumns
+  queue = [(0, 0)]
+  visited = set([(0, 0)])
+  dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+  
+  while queue:
+    temp = []
+    for i, j in queue:
+      for di, dj in dirs:
+        ni, nj = di + i, dj + j
+        if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in visited:
+          if success:
+            temp.append((ni, nj))
+            visited.add((ni, nj))
+            
+    queue = temp
+    dist += 1
+  return dist
+```
+
 ## Tricky Questions
 
 ### Finding All Prime Numbers within a Given Limit - Sieve of Eratosthenes
