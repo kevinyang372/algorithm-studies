@@ -10,6 +10,7 @@
 
 ### Key Functions
 * `bisect.bisect`: find a position in list where an element needs to be inserted to keep the list sorted
+  * `bisect_left` and `bisect_right`: only different when the element is already in the list. `bisect_left` inserts into the leftmost position and `bisect_right` inserts into the rightmost position
 ```python
 import bisect
 a = [1,2,3,5]
@@ -345,4 +346,62 @@ def reverseBits(n)
     res = (res << 1) + (1 & n) # notice the parentheses here as bit operation has low priority
     n >>= 1
   return n
+```
+
+### Longest Increasing Subsequence
+Given an unsorted array of integers (`nums`), find the length of longest increasing subsequence.
+
+__O(N^2) solution intuition__
+* The longest subsequence at index i equals to the longest subsequence at j (where `nums[i]` > `nums[j]`) + 1
+* To solve the entire problem, we can create an array with length n (which equals to len(nums))
+* Loop through 1 to len(n) - 1 and calculate the LIS at each index
+```python
+def LIS(nums):
+  if not nums: return 0
+  
+  LIS = [1] * len(nums)
+  for i in range(1, len(LIS)):
+    for j in range(0, i):
+      if nums[i] > nums[j]:
+        LIS[i] = max(LIS[i], LIS[j] + 1)
+  
+  return max(LIS)
+```
+
+__O(NlogN) solution intuition__
+* Maintain a list `N` where `N[i]` represents the tail of the increasing subsequence with length i + 1
+* Apply one of the two actions for each element in the list:
+  * When the new element is larger than every tail, increase the size by one to insert the new element (LIS size + 1)
+  * When the new element is smaller than `N[x]`, replace largest `N[x]` with the new element (LIS size unchanged)
+  
+```python
+def lengthOfLIS(self, nums):
+
+    d = [0] * len(nums)
+    size = 0
+
+    for x in nums:
+        i, j = 0, size
+        while i != j:
+            mid = (i + j) // 2
+            if d[mid] < x:
+                i = mid + 1
+            else:
+                j = mid
+        d[i] = x
+        size = max(i + 1, size)
+
+    return size
+
+# or with bisect_left
+def lengthOfLIS(self, nums):
+    d = [0] * len(nums)
+    size = 0
+
+    for x in nums:
+        i = bisect.bisect_left(d[:size], x)
+        d[i] = x
+        size = max(i + 1, size)
+
+    return size
 ```
