@@ -29,3 +29,15 @@ def lengthOfLIS(self, nums):
         size = max(i + 1, size)
 
     return size
+
+# or
+def lengthOfLIS(self, nums):
+    d = [0] * len(nums)
+    size = 0
+
+    for x in nums:
+        i = bisect.bisect_left(d[:size], x)
+        d[i] = x
+        size = max(i + 1, size)
+
+    return size
