@@ -71,3 +71,34 @@ def ladderLength(self, beginWord, endWord, wordList):
         count += 1
     
     return 0
+
+# word prep + bfs
+import collections
+
+def ladderLength(self, beginWord, endWord, wordList):
+
+    if endWord not in wordList: return 0
+    
+    mapping = collections.defaultdict(list)
+    length = len(beginWord)
+    
+    for i in wordList:
+        for m in range(length):
+            masked = i[:m] + '_' + i[m + 1:]
+            mapping[masked].append(i)
+    
+    seen = set([beginWord])
+    queue = collections.deque([(beginWord, 1)])
+    
+    while queue:
+        node, count = queue.popleft()
+        for i in range(length):
+            masked = node[:i] + '_' + node[i + 1:]
+            for neigh in mapping[masked]:
+                if neigh == endWord:
+                    return count + 1
+                if neigh not in seen:
+                    queue.append([neigh, count + 1])
+                    seen.add(neigh,)
+    
+    return 0
