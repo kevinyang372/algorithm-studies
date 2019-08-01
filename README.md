@@ -405,3 +405,49 @@ def lengthOfLIS(self, nums):
 
     return size
 ```
+
+### Minimum Window Substring - Sliding Window
+General Approach for Sliding Window Questions:
+* We have two pointers: the _right pointer_ expands the current window while the _left pointer_ contracts it
+* At any point in time, only one of these pointers move and the other remains fixed
+
+__Minimum Window Substring question:__
+
+Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n). Example: Input: S = "ADOBECODEBANC", T = "ABC"; Output: "BANC"
+
+```python
+def minWindow(s, t):
+
+    if not s or not t: return ''
+
+    l = r = 0
+    ans = (float('inf'), 0, 0)
+
+    dic = collections.Counter(t)
+    required = len(dic)
+    formed = 0
+
+    window = collections.defaultdict(int)
+
+    while r < len(s):
+        cur = s[r]
+        window[cur] += 1
+
+        if cur in dic and window[cur] == dic[cur]:
+            formed += 1
+
+        if formed == required:
+            while l <= r and formed == required:
+                window[s[l]] -= 1
+
+                if r - l + 1 < ans[0]:
+                    ans = (r - l + 1, l, r)
+
+                if s[l] in dic and window[s[l]] < dic[s[l]]:
+                    formed -= 1
+
+                l += 1
+        r += 1
+
+    return '' if ans[0] == float('inf') else s[ans[1]:ans[2] + 1]
+```
