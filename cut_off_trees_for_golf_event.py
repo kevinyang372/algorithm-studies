@@ -79,3 +79,41 @@ def cutOffTree(self, forest):
         cx, cy = nx, ny
 
     return res
+
+# astar
+def cutOffTree(self, forest):
+    lx = len(forest)
+    ly = len(forest[0])
+
+    def astar(sx, sy, tx, ty):
+        heap = [(0, 0, sx, sy)]
+        cost = {(sx, sy): 0}
+        
+        while heap:
+            cur_cost, distance, x, y = heapq.heappop(heap)
+            if x == tx and y == ty: return distance
+            for dx, dy in [[0, 1], [1, 0], [-1, 0], [0, -1]]:
+                if 0 <= x + dx < lx and 0 <= y + dy < ly and forest[x + dx][y + dy] != 0:
+                    nx, ny = x + dx, y + dy
+                    new_cost = distance + 1 + abs(tx - nx) + abs(ty - ny)
+                    if new_cost < cost.get((nx, ny), float('inf')):
+                        cost[nx, ny] = new_cost
+                        heapq.heappush(heap, (new_cost, distance + 1, nx, ny))
+        return -1
+
+    route = sorted([(v, x, y) for x, t in enumerate(forest) for y, v in enumerate(t) if v > 1])
+    cx = cy = 0
+    res = 0
+
+    for i, node in enumerate(route):
+        _, nx, ny = node
+        temp = astar(cx, cy, nx, ny)
+
+        if temp >= 0:
+            res += temp
+        else:
+            return -1
+
+        cx, cy = nx, ny
+
+    return res
