@@ -289,6 +289,34 @@ def bfs(d):
   return dist
 ```
 
+### A* Algorithm
+A* is another path-finding algorithm with better performance in both time and space. It discovers the shortest path by maintaining a priority queue ordered by the estimated sum of distance traveled from the start point and heuristic distance from the end point (usually the manhattan distance `abs(end_x - cur_x) + abs(end_y - cur_y)`)
+* Find all the reachable points one step away from the current position
+* Add them into the priority queue (if the point is already in the priority queue, update its cost if the current cost is lower)
+* Continue the same process until reaching the target position
+
+```python
+import heapq
+
+def astar(mat, sx, sy, tx, ty):
+  lx, ly = len(mat), len(mat[0])
+  heap = [(0, 0, sx, sy)]
+  cost = {(sx, sy): 0}
+  
+  while heap:
+    cur_cost, distance, x, y = heapq.heappop(heap)
+    if x == tx and y == ty: return distance
+    for dx, dy in [[0, 1], [1, 0], [-1, 0], [0, -1]]:
+      if 0 <= x + dx < lx and 0 <= y + dy < ly and mat[x + dx][y + dy] != obstacle:
+        nx, ny = x + dx, y + dy
+        new_cost = distance + 1 + abs(tx - nx) + abs(ty - ny)
+        if new_cost < cost.get((nx, ny), float('inf')):
+          cost[nx, ny] = new_cost
+          heapq.heappush((new_cost, distance + 1, nx, ny))
+          
+  return -1
+```
+
 ## Tricky Questions
 
 ### Finding All Prime Numbers within a Given Limit - Sieve of Eratosthenes
