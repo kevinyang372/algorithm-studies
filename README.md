@@ -312,7 +312,7 @@ def astar(mat, sx, sy, tx, ty):
         new_cost = distance + 1 + abs(tx - nx) + abs(ty - ny)
         if new_cost < cost.get((nx, ny), float('inf')):
           cost[nx, ny] = new_cost
-          heapq.heappush((new_cost, distance + 1, nx, ny))
+          heapq.heappush(heap, (new_cost, distance + 1, nx, ny))
           
   return -1
 ```
