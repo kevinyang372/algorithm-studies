@@ -19,3 +19,22 @@ def missingNumber(self, nums):
         t -= i
         
     return t
+
+'''
+Bit Manipulation
+XOR is communitive
+n ^ n = 0
+e.g. we have 0 ~ 4 missing 2
+The following calculates:
+4 ^ (0 ^ 0) ^ (1 ^ 1) ^ (2 ^ 3) ^ (3 ^ 4)
+= (0 ^ 0) ^ (1 ^ 1) ^ (3 ^ 3) ^ (4 ^ 4) ^ 2
+= 2
+'''
+def missingNumber(self, nums):
+        
+    t = len(nums)
+    for i, v in enumerate(nums):
+        t ^= (i ^ v)
+        
+    return t
+
