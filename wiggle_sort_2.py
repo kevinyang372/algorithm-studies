@@ -18,6 +18,6 @@ def wiggleSort(nums):
         
     nums.sort()
     half = len(nums[::2])
-    nums[::2], nums[1::2] = nums[half:], nums[:half]
+    nums[::2], nums[1::2] = nums[:half][::-1], nums[half:][::-1]
     
     return nums
