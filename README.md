@@ -40,6 +40,21 @@ A = [1,3,5]
 B = ['A','B','C']
 [(x, y) for x in A for y in B]
 ```
+* Slicing `list[x:y:z]` means slice the list starting from x and ending at y with step size of z
+```python
+a = list(range(100))
+# Most common - reversing
+a[::-1]
+
+# Every even element in a
+a[::2]
+
+# Every odd element in a
+a[1::2]
+
+# Every 3rd element before 50
+a[:50:3]
+```
 * (set) `A.issubset(B)` - check if a set is the subset of another
 
 ### Tips
