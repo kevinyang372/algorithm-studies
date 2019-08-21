@@ -7,6 +7,7 @@
 * Insertion (with resizing) - O(1)
 * Deletion (moving all successive elements to the left) - O(N)
 * Slicing - O(k) k is the slice size
+* __IMPORTANT!__ - Set functions differently from array which needs only O(1) time for lookup
 
 ### Key Functions
 * `bisect.bisect`: find a position in list where an element needs to be inserted to keep the list sorted
