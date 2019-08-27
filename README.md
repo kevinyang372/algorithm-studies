@@ -450,6 +450,33 @@ def lengthOfLIS(self, nums):
     return size
 ```
 
+### Longest Common Subsequence (LCS)
+
+_A subsequence is a sequence that can be derived from one sequence by deleting some characters without changing the order of the remaining elements._
+
+Given two strings `word1` and `word2`. Find the length of longest common subsequence between them.<br>
+Intuition:
+* If `word1[-1] == word2[-1]`, then the longest common subsequnce is equal to `1 + lcs(word1[:-1], word2[:-1])`
+* If `word1[-1] != word2[-1]`, then the longest common subsequnce is equal to `max(lcs(word1[:-1], word2), lcs(word1, word2[:-1]))`
+
+Dynamic Programming Approach (O(N^2))
+```python
+def minDistance(self, word1, word2):
+    h1, h2 = len(word1) + 1, len(word2) + 1
+    mat = [[0] * h1 for _ in range(h2)]
+        
+    mat[0][0] = 0
+        
+    for i in range(1, h2):
+        for t in range(1, h1):
+            if word1[t - 1] == word2[i - 1]:
+                mat[i][t] = 1 + mat[i - 1][t - 1]
+            else:
+                mat[i][t] = max(mat[i - 1][t], mat[i][t - 1])
+        
+    return mat[h2 - 1][h1 - 1]
+```
+
 ### Minimum Window Substring - Sliding Window
 General Approach for Sliding Window Questions:
 * We have two pointers: the _right pointer_ expands the current window while the _left pointer_ contracts it
