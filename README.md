@@ -84,6 +84,11 @@ Strings are immutable
 * Use a _dummy head_ (with null value) to avoid having to check for empty lists
 * Algorithms on linked lists usually benefit from using two iterators with one move faster than the other
 
+### Linked List in Practice - OrderedDict
+* Python's OrderedDict library maintains the key pair in the order of their insertion
+  * `d.popitem()` removes the most recent key pair while `d.popitem(last=False)` removes the least recent one
+* The OrderedDict is built with a hashmap and double linkedlist (keeps track of the head and tail)
+
 ## 4. Stacks And Queues
 
 Stacks: LIFO (Last in first out)
