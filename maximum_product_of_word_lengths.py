@@ -30,3 +30,24 @@ def maxProduct(self, words):
         past.append((temp, len(v)))
     
     return max_length
+
+# optimized hashmap + bitmask
+def maxProduct(self, words):
+
+    bitmask = lambda ch: ord(ch) - ord('a')
+    b = collections.defaultdict(int)
+
+    for m in words:
+        temp = 0
+        for i in m:
+            temp |= 1 << bitmask(i)
+        b[temp] = max(b[temp], len(m))
+
+    max_val = 0
+    for x in b:
+        for y in b:
+            if x & y == 0:
+                max_val = max(max_val, b[x] * b[y])
+
+    return max_val
+
