@@ -527,3 +527,26 @@ def minWindow(s, t):
 
     return '' if ans[0] == float('inf') else s[ans[1]:ans[2] + 1]
 ```
+
+### Compare Strings with BitMask
+Given two strings (with only lower characters), find if they have common letters.
+* The most common approach would be converting both strings to sets and check their intersection
+  * This takes O(M * N) time and O(M + N) space
+* We could convert each string into a bitmask with size 26 (1 if the string has that character, 0 if not)
+* Use bit operation `&` to check the intersection
+* This takes O(M + N) time and O(1) space
+
+```python
+def checkIntersection(s1, s2):
+
+    # bitmask of size 26
+    bitmask = lambda ch: ord(ch) - ord('a')
+    b1 = b2 = 0
+    
+    for i in s1:
+        b1 |= 1 << bitmask(i)
+    for t in s2:
+        b2 |= 1 << bitmask(t)
+    
+    return b1 & b2 != 0
+```
