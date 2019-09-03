@@ -550,3 +550,27 @@ def checkIntersection(s1, s2):
     
     return b1 & b2 != 0
 ```
+
+### 0-1 Knapsack Problem (Dynamic Programming)
+Given a list of items with weight and value as well as the maximum weight you can carry. Find the most value you are able to bring.
+* This could be framed as a recursion problem:
+  * `maxVal(list, max_weight)` = `max(maxVal(list[1:], max_weight), maxVal(list[1:], max_weight - list[0].weight) + list[0].value)`
+  * In other words, given an item in the list, select the item or not.
+* The time complexity could be optimized with dynamic programming
+
+```python
+def knapSack(W, wt, val, n): 
+    K = [[0 for _ in range(W+1)] for _ in range(n+1)] 
+  
+    # Build table K[][] in bottom up manner 
+    for i in range(n+1): 
+        for w in range(W+1): 
+            if i==0 or w==0: 
+                K[i][w] = 0
+            elif wt[i-1] <= w: 
+                K[i][w] = max(val[i-1] + K[i-1][w-wt[i-1]],  K[i-1][w]) 
+            else: 
+                K[i][w] = K[i-1][w] 
+  
+    return K[n][W]
+```
