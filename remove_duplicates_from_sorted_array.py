@@ -15,3 +15,22 @@ def removeDuplicates(nums):
             ind += 1
 
     return len(nums)
+
+# pop is unnecessary; faster
+def removeDuplicates(self, nums):
+        
+    if len(nums) < 2: return len(nums)
+    
+    i = count = 0
+    j = 1
+    
+    while j < len(nums):
+        if nums[i] == nums[j]:
+            j += 1
+        else:
+            nums[i + 1] = nums[j]
+            i += 1
+            j += 1
+            count += 1
+    
+    return count + 1
