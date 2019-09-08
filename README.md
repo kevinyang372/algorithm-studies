@@ -574,3 +574,40 @@ def knapSack(W, wt, val, n):
   
     return K[n][W]
 ```
+
+### N-Sum
+Given a list of integers. Find N integers that give the sum of `target` value.
+* Recursively reduce N to N - 1
+* Handle the subproblem when reduced to 2 sum
+
+```python
+def Wrapper(nums, target, N):
+    results = []
+    nSum(sorted(nums), target, N, [], results)
+    return results
+
+def nSum(nums, target, N, result, results):
+    if len(nums) < N or N < 2 or target < nums[0] * N or target > nums[-1] * N: return 
+    
+    for i in range(0, len(nums) - N + 1):
+        if i == 0 or nums[i] != nums[i - 1]:
+            if N == 3:
+                twoSum(nums[i + 1:], target - nums[i], result + [nums[i]], results)
+            else:
+                nSum(nums[i + 1:], target - nums[i], N - 1, result + [nums[i]], results)
+
+def twoSum(nums, target, result, results):
+    i, j = 0, len(nums) - 1
+    while i < j:
+        s = nums[i] + nums[j]
+        if s == target:
+            results.append(result + [nums[i], nums[j]])
+            i += 1
+            
+            while i < j and nums[i] == nums[i - 1]:
+                i += 1
+        elif s < target:
+            i += 1
+        else:
+            j -= 1
+```
