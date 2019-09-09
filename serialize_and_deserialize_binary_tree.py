@@ -114,7 +114,8 @@ class Codec:
         s = data.split(',')
         
         def deserializer(s):
-            root = s.pop(0)
+            # popping from tail is faster than from head
+            root = s.pop()
             if root == '#': return None
             node = TreeNode(root)
             node.left = deserializer(s)
@@ -122,4 +123,4 @@ class Codec:
 
             return node
         
-        return deserializer(s)
+        return deserializer(s[::-1])
