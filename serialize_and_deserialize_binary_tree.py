@@ -95,3 +95,31 @@ class Codec:
                 data = data[2:]
 
         return head
+
+
+# Optimized solution using preorder traversal
+class Codec:
+
+    def serialize(self, root):
+        
+        if not root: return "#"
+        left = self.serialize(root.left)
+        right = self.serialize(root.right)
+        res = ','.join([str(root.val), left, right])
+        return res
+
+
+    def deserialize(self, data):
+
+        s = data.split(',')
+        
+        def deserializer(s):
+            root = s.pop(0)
+            if root == '#': return None
+            node = TreeNode(root)
+            node.left = deserializer(s)
+            node.right = deserializer(s)
+
+            return node
+        
+        return deserializer(s)
