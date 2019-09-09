@@ -166,57 +166,115 @@ def inorderTraversal(self, root):
 Segment Tree (For Range Sum questions)
 ```python
 class SegmentTreeNode(object):
-  def __init__(self, val, start, end):
-    self.start = start
-    self.end = end
-    self.sums = val # can also be max / min
-    self.left = None
-    self.right = None
+    def __init__(self, val, start, end):
+        self.start = start
+        self.end = end
+        self.sums = val # can also be max / min
+        self.left = None
+        self.right = None
     
 # O(N) time
 def buildTree(start, end, vals):
-  if start == end:
-    return SegmentTreeNode(vals[start], start, end)
-  mid = (start + end) // 2
-  left = buildTree(start, mid, vals)
-  right = buildTree(mid + 1, end, vals)
+    if start == end:
+        return SegmentTreeNode(vals[start], start, end)
+    mid = (start + end) // 2
+    left = buildTree(start, mid, vals)
+    right = buildTree(mid + 1, end, vals)
   
-  cur = SegmentTreeNode(left.sums + right.sums, start, end)
-  cur.left = left
-  cur.right = right
+    cur = SegmentTreeNode(left.sums + right.sums, start, end)
+    cur.left = left
+    cur.right = right
   
-  return cur
+    return cur
 
 # O(logN) time
 def updateTree(root, index, val):
-  if root.start == root.end == index:
-    root.sums = val
-    return root
-  mid = (root.start + root.end) // 2
+    if root.start == root.end == index:
+        root.sums = val
+        return root
+    mid = (root.start + root.end) // 2
   
-  if index > mid:
-    updateTree(root.right, index, val)
-  else:
-    updateTree(root.left, index, val)
+    if index > mid:
+        updateTree(root.right, index, val)
+    else:
+        updateTree(root.left, index, val)
    
-  root.sums = root.left.sums + root.right.sums
+    root.sums = root.left.sums + root.right.sums
   
 # O(logN + k) time
 def querySum(root, i, j):
-  if root.start == i and root.end == j:
-    return root.sums
-  mid = (root.start + root.end) // 2
+    if root.start == i and root.end == j:
+        return root.sums
+    mid = (root.start + root.end) // 2
   
-  if i > mid:
-    return querySum(root.right, i, j)
-  elif j <= mid:
-    return querySum(root.left, i, j)
-  else:
-    return querySum(root.left, i, mid) + querySum(root.right, mid + 1, j)
+    if i > mid:
+        return querySum(root.right, i, j)
+    elif j <= mid:
+        return querySum(root.left, i, j)
+    else:
+        return querySum(root.left, i, mid) + querySum(root.right, mid + 1, j)
 ```
 
 ### Time Complexities
 Most tree problems could be solved with recursion, whose time complexity depends on the depth of recursion (O(h) - h is the tree height). Notice this could be translated to `O(logN)` for balanced trees and `O(N)` for skewed trees.
+
+### Serialization and Deserialization
+* Use pre-order traversal to serialize the binary tree (add special token when the node doesn't have left/right child)
+* Deserialize the tree by breaking down the string recursively
+
+```python
+def serialize(root):
+    if not root: return "#"
+    left = serialize(root.left)
+    right = serialize(root.right)
+    res = ','.join([str(root.val), left, right])
+    return res
+    
+def deserialize(str):
+    s = data.split(',')
+        
+    def deserializer(s):
+        root = s.pop()
+        if root == '#': return None
+        node = TreeNode(root)
+        node.left = deserializer(s)
+        node.right = deserializer(s)
+
+        return node
+        
+    return deserializer(s[::-1])
+```
+
+### Serialization and Deserialization of BST
+* Use pre-order traversal (no special token needed)
+* Deserialize by utilizing the lower and upper bound
+
+```python
+def serialize(root):
+    if not root: return ""
+    res = [str(root.val)]
+    if root.left:
+        res.append(serialize(root.left))
+    if root.right:
+        res.append(serialize(root.right))
+    res = ','.join(res)
+    return res
+
+def deserialize(str):
+    if not data: return 
+    s = data.split(',')
+        
+    def deserializer(s, lower, upper):
+        if not s or int(s[-1]) < lower or int(s[-1]) > upper: return None
+        root = int(s.pop())
+        node = TreeNode(root)
+        node.left = deserializer(s, lower, root)
+        node.right = deserializer(s, root, upper)
+
+        return node
+        
+    return deserializer(s[::-1], -float('inf'), float('inf'))
+```
 
 ## 6. Heaps
 
@@ -269,20 +327,20 @@ Improved Solution: Use binary search to find k. Record the occurrence and contin
 
 ```python
 def findFirstOccurrence(t, A):
-  L, U = 0, len(A) - 1
-  occurrence = len(A)
+    L, U = 0, len(A) - 1
+    occurrence = len(A)
   
-  while L <= U:
-    M = L + (U - L) / 2
-    if A[M] > t:
-      L = M + 1
-    elif A[M] == t:
-      occurrence = M
-      U = M - 1
-    else:
-      U = M - 1
+    while L <= U:
+        M = L + (U - L) / 2
+        if A[M] > t:
+            L = M + 1
+        elif A[M] == t:
+            occurrence = M
+            U = M - 1
+        else:
+            U = M - 1
       
-  return occurrence 
+    return occurrence 
 ```
 
 ### Standard BFS:
@@ -290,24 +348,24 @@ DFS could be done with simple recursion. But BFS needs to be done with queues.
 
 ```python
 def bfs(d):
-  dist, m, n = 1, nRows, nColumns
-  queue = [(0, 0)]
-  visited = set([(0, 0)])
-  dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    dist, m, n = 1, nRows, nColumns
+    queue = [(0, 0)]
+    visited = set([(0, 0)])
+    dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
   
-  while queue:
-    temp = []
-    for i, j in queue:
-      for di, dj in dirs:
-        ni, nj = di + i, dj + j
-        if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in visited:
-          if success:
-            temp.append((ni, nj))
-            visited.add((ni, nj))
+    while queue:
+        temp = []
+        for i, j in queue:
+            for di, dj in dirs:
+                ni, nj = di + i, dj + j
+                if 0 <= ni < m and 0 <= nj < n and (ni, nj) not in visited:
+                    if success:
+                        temp.append((ni, nj))
+                        visited.add((ni, nj))
             
-    queue = temp
-    dist += 1
-  return dist
+        queue = temp
+        dist += 1
+    return dist
 ```
 
 ### A* Algorithm
@@ -320,22 +378,22 @@ A* is another path-finding algorithm with better performance in both time and sp
 import heapq
 
 def astar(mat, sx, sy, tx, ty):
-  lx, ly = len(mat), len(mat[0])
-  heap = [(0, 0, sx, sy)]
-  cost = {(sx, sy): 0}
+    lx, ly = len(mat), len(mat[0])
+    heap = [(0, 0, sx, sy)]
+    cost = {(sx, sy): 0}
   
-  while heap:
-    cur_cost, distance, x, y = heapq.heappop(heap)
-    if x == tx and y == ty: return distance
-    for dx, dy in [[0, 1], [1, 0], [-1, 0], [0, -1]]:
-      if 0 <= x + dx < lx and 0 <= y + dy < ly and mat[x + dx][y + dy] != obstacle:
-        nx, ny = x + dx, y + dy
-        new_cost = distance + 1 + abs(tx - nx) + abs(ty - ny)
-        if new_cost < cost.get((nx, ny), float('inf')):
-          cost[nx, ny] = new_cost
-          heapq.heappush(heap, (new_cost, distance + 1, nx, ny))
+    while heap:
+        cur_cost, distance, x, y = heapq.heappop(heap)
+        if x == tx and y == ty: return distance
+        for dx, dy in [[0, 1], [1, 0], [-1, 0], [0, -1]]:
+            if 0 <= x + dx < lx and 0 <= y + dy < ly and mat[x + dx][y + dy] != obstacle:
+                nx, ny = x + dx, y + dy
+                new_cost = distance + 1 + abs(tx - nx) + abs(ty - ny)
+                if new_cost < cost.get((nx, ny), float('inf')):
+                    cost[nx, ny] = new_cost
+                    heapq.heappush(heap, (new_cost, distance + 1, nx, ny))
           
-  return -1
+    return -1
 ```
 
 ## Tricky Questions
@@ -390,10 +448,10 @@ Reverse bits of a given 32 bits unsigned integer.
 
 ```python
 def reverseBits(n)
-  res = 0
-  for _ in range(32):
-    res = (res << 1) + (1 & n) # notice the parentheses here as bit operation has low priority
-    n >>= 1
+    res = 0
+    for _ in range(32):
+        res = (res << 1) + (1 & n) # notice the parentheses here as bit operation has low priority
+        n >>= 1
   return n
 ```
 
@@ -406,15 +464,15 @@ __O(N^2) solution intuition__
 * Loop through 1 to len(n) - 1 and calculate the LIS at each index
 ```python
 def LIS(nums):
-  if not nums: return 0
+    if not nums: return 0
   
-  LIS = [1] * len(nums)
-  for i in range(1, len(LIS)):
-    for j in range(0, i):
-      if nums[i] > nums[j]:
-        LIS[i] = max(LIS[i], LIS[j] + 1)
+    LIS = [1] * len(nums)
+    for i in range(1, len(LIS)):
+        for j in range(0, i):
+            if nums[i] > nums[j]:
+                LIS[i] = max(LIS[i], LIS[j] + 1)
   
-  return max(LIS)
+    return max(LIS)
 ```
 
 __O(NlogN) solution intuition__
