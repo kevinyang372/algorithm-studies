@@ -56,6 +56,7 @@ a[1::2]
 a[:50:3]
 ```
 * (set) `A.issubset(B)` - check if a set is the subset of another
+* (set) Get first element in a set - `next(iter(s))`
 
 ### Tips
 * Filing an array from the front is slower than from behind (append)
