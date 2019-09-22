@@ -101,6 +101,57 @@ Queues: FIFO (First in first out)
 * Using single variable to record the max is very time consuming on popping action
 * Improve time complexity by caching (Every insertion records the element as well as the current max)
 
+```python
+class MaxStack(object):
+
+    def __init__(self):
+        self.stack = []
+        self.cache = []
+
+    def push(self, x):
+        self.stack.append(x)
+        if self.cache:
+            self.cache.append((max(x, self.cache[-1]), min(x, self.cache[-1]))
+        else:
+            self.cache.append((x, x))
+
+    def pop(self):
+        self.cache.pop()
+        return self.stack.pop()
+
+    def top(self):
+        return self.stack[-1]
+
+    def getMax(self):
+        return self.cache[-1][0]
+        
+    def getMin(self):
+        return self.cache[-1][1]
+```
+* Max Frequnency Stack (Stack of stacks approach)
+
+```python
+class FreqStack(object):
+
+    def __init__(self):
+        self.freq = {}
+        self.stacks = collections.defaultdict(list)
+        self.maxfreq = 0
+
+    def push(self, x):
+        self.freq[x] = self.freq.get(x, 0) + 1
+        if self.freq[x] > self.maxfreq:
+            self.maxfreq = self.freq[x]
+        self.stacks[self.maxfreq].append(x)
+
+    def pop(self):
+        x = self.stacks[self.maxfreq].pop()
+        self.freq[x] -= 1
+        if not self.stacks[self.maxfreq]:
+            self.maxfreq -= 1
+        return x
+```
+
 ## 5. Binary Trees
 
 ### Traversing
