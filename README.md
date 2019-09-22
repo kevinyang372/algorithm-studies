@@ -721,3 +721,18 @@ def twoSum(nums, target, result, results):
         else:
             j -= 1
 ```
+
+### Best Time to Buy and Sell Stock (General Approach)
+* There are three possible actions to do: `buy`, `sell`, `hold`
+* We could define one specific state with three variables:
+  * i - day number
+  * k - number of transactions left
+  * h - whether we are holding the stock or not
+* Initial state:
+  * T[-1][k][0] = 0 (Profit is zero to start with)
+  * T[-1][k][1] = -infinity (It is impossible to hold a stock before start)
+  * T[i][0][0] = 0 (Profit will always be zero if transaction is not possible)
+  * T[i][0][1] = -infinity (It is impossible to hold a stock if one could do zero transaction)
+* Update Function
+  * T[i][k][0] = max(T[i - 1][k][0], T[i - 1][k][1] + prices[i]) -- holding / selling
+  * T[i][k][1] = max(T[i - 1][k][1], T[i - 1][k - 1][0] - prices[i]) -- holding / buying
