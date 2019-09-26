@@ -55,6 +55,13 @@ a[1::2]
 # Every 3rd element before 50
 a[:50:3]
 ```
+* Sort one array based on the value of another
+```python
+a = [2, 6, 1]
+b = [1, 2, 3]
+
+[y for x, y in sorted(zip(a, b))]
+```
 * (set) `A.issubset(B)` - check if a set is the subset of another
 * (set) Get first element in a set - `next(iter(s))`
 
