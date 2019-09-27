@@ -45,3 +45,18 @@ def isValid(s: str):
         return False
 
     return True
+
+def isValid(self, s):
+    stack = []
+    d = {'}': '{', ')':'(', ']':'['}
+    for i in s:
+        if i in ['{','(', '[']:
+            stack.append(i)
+        else:
+            if not stack:
+                return False
+            elif d[i] == stack[-1]:
+                stack.pop()
+            else:
+                return False
+    return len(stack) == 0
