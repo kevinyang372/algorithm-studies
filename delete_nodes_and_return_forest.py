@@ -59,3 +59,31 @@ def delNodes(self, root, to_delete):
             res += self.delNodes(i, to_delete)
             
         return res
+
+# straight forward recursion
+def delNodes(self, root, to_delete):
+    if not root: return []
+    if root.val in to_delete:
+        return self.delNodes(root.left, to_delete) + self.delNodes(root.right, to_delete)
+    else:
+        res = [root]
+        stack = [root]
+        
+        while stack:
+            node = stack.pop()
+            
+            if node.left:
+                if node.left.val in to_delete:
+                    res += self.delNodes(node.left, to_delete)
+                    node.left = None
+                else:
+                    stack.append(node.left)
+                    
+            if node.right:
+                if node.right.val in to_delete:
+                    res += self.delNodes(node.right, to_delete)
+                    node.right = None
+                else:
+                    stack.append(node.right)
+        
+        return res 
