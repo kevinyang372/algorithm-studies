@@ -82,6 +82,12 @@ Strings are immutable
 * `s.isalnum()`: check if the string contains only alphanumeric character ('a-z/A-Z')
 * `s.count(substring)`: count the number of substrings that exist in the given string
 
+### Find All Substrings of A Given String
+```python
+s = 'abbac'
+[s[i:j] for i in range(len(s)) for j in range(i + 1, len(s) + 1)]
+```
+
 ## 3. Linked Lists
 
 ### Time Complexities
