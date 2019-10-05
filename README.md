@@ -749,3 +749,59 @@ def twoSum(nums, target, result, results):
 * Update Function
   * T[i][k][0] = max(T[i - 1][k][0], T[i - 1][k][1] + prices[i]) -- holding / selling
   * T[i][k][1] = max(T[i - 1][k][1], T[i - 1][k - 1][0] - prices[i]) -- holding / buying
+
+### Median of Two Sorted Array
+* We are trying to find a point X in arr1 and Y in arr2 which satisfies the following condition:
+  * `X + Y = (len(arr1) + len(arr2)) // 2`
+  * `max(arr1[X - 1], arr2[Y - 1]) <= min(arr1[X], arr2[Y])`
+* We could progressively achieve that condition by applying binary search on the shorter array. Time complexity: O(log(N))
+```python
+def findMedianSortedArrays(nums1, nums2):
+
+    if len(nums1) > len(nums2):
+        nums1, nums2 = nums2, nums1
+
+    total = len(nums1) + len(nums2)
+
+    if not nums1:
+        if len(nums2) % 2 == 1:
+            return nums2[len(nums2) // 2]
+        else:
+            return (nums2[len(nums2) // 2 - 1] + nums2[len(nums2) // 2]) / 2.0
+        
+    if nums1[0] >= nums2[-1]:
+        if total % 2 == 1:
+            return nums2[total // 2]
+        else:
+            if len(nums1) == len(nums2):
+                return (nums1[0] + nums2[-1]) / 2.0
+            else:
+                return (nums2[total // 2] + nums2[(total - 1) // 2]) / 2.0
+    elif nums1[-1] <= nums2[0]:
+        if total % 2 == 1:
+            return nums2[total // 2 - len(nums1)]
+        else:
+            if len(nums1) == len(nums2):
+                return (nums1[-1] + nums2[0]) / 2.0
+            else:
+                return (nums2[total // 2 - len(nums1)] + nums2[(total - 1) // 2 - len(nums1)]) / 2.0
+
+    i = len(nums1) // 2
+    j = total // 2 - i
+
+    lower, upper = 0, len(nums1)
+
+    while max(nums1[i - 1], nums2[j - 1]) > min(nums1[i], nums2[j]):
+        print(i, j)
+        if nums1[i - 1] > nums2[j]:
+            upper = i
+        else:
+            lower = i + 1
+        i = (lower + upper) // 2
+        j = total // 2 - i
+
+    if total % 2 == 1:
+        return min(nums1[i], nums2[j])
+    else:
+        return (max(nums1[i - 1], nums2[j - 1]) + min(nums1[i], nums2[j])) / 2.0
+```
