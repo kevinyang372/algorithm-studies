@@ -47,3 +47,53 @@ def median_of_two_sorted(lis1, lis2):
         res = (res + res2) / 2
 
     return res
+
+# Binary O(logN)
+def findMedianSortedArrays(nums1, nums2):
+
+    if len(nums1) > len(nums2):
+        nums1, nums2 = nums2, nums1
+
+    total = len(nums1) + len(nums2)
+
+    if not nums1:
+        if len(nums2) % 2 == 1:
+            return nums2[len(nums2) // 2]
+        else:
+            return (nums2[len(nums2) // 2 - 1] + nums2[len(nums2) // 2]) / 2.0
+        
+    if nums1[0] >= nums2[-1]:
+        if total % 2 == 1:
+            return nums2[total // 2]
+        else:
+            if len(nums1) == len(nums2):
+                return (nums1[0] + nums2[-1]) / 2.0
+            else:
+                return (nums2[total // 2] + nums2[(total - 1) // 2]) / 2.0
+    elif nums1[-1] <= nums2[0]:
+        if total % 2 == 1:
+            return nums2[total // 2 - len(nums1)]
+        else:
+            if len(nums1) == len(nums2):
+                return (nums1[-1] + nums2[0]) / 2.0
+            else:
+                return (nums2[total // 2 - len(nums1)] + nums2[(total - 1) // 2 - len(nums1)]) / 2.0
+
+    i = len(nums1) // 2
+    j = total // 2 - i
+
+    lower, upper = 0, len(nums1)
+
+    while max(nums1[i - 1], nums2[j - 1]) > min(nums1[i], nums2[j]):
+        print(i, j)
+        if nums1[i - 1] > nums2[j]:
+            upper = i
+        else:
+            lower = i + 1
+        i = (lower + upper) // 2
+        j = total // 2 - i
+
+    if total % 2 == 1:
+        return min(nums1[i], nums2[j])
+    else:
+        return (max(nums1[i - 1], nums2[j - 1]) + min(nums1[i], nums2[j])) / 2.0
