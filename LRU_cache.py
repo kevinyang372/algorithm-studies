@@ -91,3 +91,50 @@ def put(self, key, value):
         else:  # self.dic is full
             self.dic.popitem(last=False) 
     self.dic[key] = value
+
+# doubly linked list
+class LRUCache(object):
+    
+    class Node(object):
+        def __init__(self, key, val):
+            self.key = key
+            self.val = val
+            self.prev = None
+            self.next = None
+
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.d = {}
+        self.head = self.Node('head', 'head')
+        self.tail = self.Node('tail', 'tail')
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def get(self, key):
+        if key not in self.d:
+            return -1
+        self.insertatfront(self.unlinknode(self.d[key]))
+        return self.d[key].val
+
+    def put(self, key, value):
+        if key in self.d:
+            self.d[key].val = value
+            self.insertatfront(self.unlinknode(self.d[key]))
+        else:
+            if len(self.d) >= self.cap:
+                del self.d[self.unlinknode(self.tail.prev).key]
+            self.d[key] = self.Node(key, value)
+            self.insertatfront(self.d[key])
+    
+    def unlinknode(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        
+        node.next = None
+        node.prev = None
+        
+        return node
+    
+    def insertatfront(self, node):
+        node.next, self.head.next = self.head.next, node
+        node.prev, node.next.prev = self.head, node
