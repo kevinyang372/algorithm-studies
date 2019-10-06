@@ -26,4 +26,14 @@ def leastBricks(wall):
 
     return len(wall) - wall_space[max(wall_space, key=wall_space.get)]
 
+def leastBricks(self, arr):
+    d = collections.Counter()
+    max_val = 0
+    for i in arr:
+        temp = 0
+        for m in i[:-1]:
+            temp += m
+            d[temp] += 1
+            max_val = max(max_val, d[temp])
+    return len(arr) - max_val
 
