@@ -31,3 +31,38 @@ def trap(height):
     water_surface[-1] = height[-1]
 
     return sum([water_surface[i] - height[i] for i in range(len(height))])
+
+# TLE
+def trap(self, height):
+        
+    d = collections.defaultdict(int)
+    res = 0
+    
+    for i, v in enumerate(height):
+        for m in range(v + 1):
+            if m in d:
+                res += i - d[m] - 1
+            d[m] = i
+    
+    return res
+
+# dp
+def trap(self, height):
+        
+    left_max, right_max = [], []
+    
+    cur_max = -float('inf')
+    for i in range(len(height)):
+        cur_max = max(height[i], cur_max)
+        left_max.append(cur_max)
+    
+    cur_max = -float('inf')
+    for i in range(len(height) - 1, -1, -1):
+        cur_max = max(height[i], cur_max)
+        right_max.append(cur_max)
+
+    ans = 0
+    for i in range(len(height)):
+        ans += min(left_max[i], right_max[len(height) - i - 1]) - height[i]
+    
+    return ans
