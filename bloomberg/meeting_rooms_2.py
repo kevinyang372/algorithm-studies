@@ -5,7 +5,7 @@
 # Given [[0, 30],[5, 10],[15, 20]],
 # return 2.
 
-def meetingRoom(arr):
+def minMeetingRooms(self, arr):
     arr.sort()
     rooms = []
 
@@ -13,14 +13,15 @@ def meetingRoom(arr):
         if not rooms:
             rooms.append(i[1])
         else:
-            if i[0] <= rooms[-1]:
-                ind = bisect.bisect_left(rooms, i[0])
-                rooms[ind] = i[1]
-
-                while ind < len(rooms) - 1 and rooms[ind] > rooms[ind + 1]:
-                    rooms[ind], rooms[ind + 1] = rooms[ind + 1], rooms[ind]
-                    ind += 1
+            ind = bisect.bisect_right(rooms, i[0])
+            
+            if ind == 0:
+                t = bisect.bisect_right(rooms, i[1])
+                rooms.insert(t, i[1])
             else:
-                rooms.append(i[1])
+                rooms[ind - 1] = i[1]
+                while ind < len(rooms) and rooms[ind - 1] > rooms[ind]:
+                    rooms[ind - 1], rooms[ind] = rooms[ind], rooms[ind - 1]
+                    ind += 1
 
     return len(rooms)
