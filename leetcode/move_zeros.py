@@ -24,3 +24,21 @@ def moveZeroes(nums):
         ind += 1
         count += 1
 
+# inplace O(N)
+
+def moveZeroes(self, nums):
+    if not nums: return
+    
+    i = j = 0
+    while j < len(nums):
+        if j == i and nums[j] != 0:
+            j += 1
+            i += 1
+        elif nums[j] == 0:
+            j += 1
+        elif j > i and nums[j] != 0:
+            nums[j], nums[i] = nums[i], nums[j]
+            i += 1
+            j += 1
+            
+    return nums
