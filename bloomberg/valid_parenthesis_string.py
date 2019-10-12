@@ -17,9 +17,14 @@
 # Note:
 # The string size will be in the range [1, 100].
 
+# TLE
 def checkValidString(s, score = 0):
 
-    if not s and score == 0: return True
+    if not s:
+        if score == 0:
+            return True
+        else:
+            return False
     if score < 0: return False
 
     if s[0] == '(':
@@ -27,4 +32,4 @@ def checkValidString(s, score = 0):
     elif s[0] == ')':
         return checkValidString(s[1:], score - 1)
     else:
-        return checkValidString(s[1:], score + 1) or checkValidString(s[1:], score - 1)
+        return checkValidString(s[1:], score + 1) or checkValidString(s[1:], score - 1) or checkValidString(s[1:], score)
