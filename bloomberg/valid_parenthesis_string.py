@@ -33,3 +33,32 @@ def checkValidString(s, score = 0):
         return checkValidString(s[1:], score - 1)
     else:
         return checkValidString(s[1:], score + 1) or checkValidString(s[1:], score - 1) or checkValidString(s[1:], score)
+
+# two stack
+def checkValidString(s):
+
+    if not s: return True
+
+    stack = []
+    star_stack = []
+
+    for i, v in enumerate(s):
+        if v == '(':
+            stack.append(i)
+        elif v == '*':
+            star_stack.append(i)
+        else:
+            if stack:
+                stack.pop()
+            elif star_stack:
+                star_stack.pop()
+            else:
+                return False
+
+    while stack and star_stack:
+        if stack[-1] > star_stack[-1]:
+            return False
+        stack.pop()
+        star_stack.pop()
+
+    return len(star_stack) >= len(stack)
