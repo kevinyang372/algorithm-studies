@@ -57,41 +57,50 @@
 
 import collections
 
-def widthOfBinaryTree(root):
-    
+def widthOfBinaryTree(self, root):
     if not root: return 0
     
-    stack = [[root, 0, 0]]
-    max_width = 1
-    d = collections.defaultdict(int)
+    queue = collections.deque([(root, 0, 0)])
+    max_val = {}
+    min_val = {}
+    max_d = 0
     
-    while stack:
+    while queue:
+        node, level, coordinate = queue.popleft()
         
-        node, level, width = stack.pop(0)
-        
-        if d[level] == 0:
-            d[level] = width
-        elif width * d[level] > 0:
-            max_width = max(max_width, width - d[level] + 1)
+        if level in max_val:
+            max_val[level] = max(max_val[level], coordinate)
         else:
-            max_width = max(max_width, width - d[level])
+            max_val[level] = coordinate
+            
+        if level in min_val:
+            min_val[level] = min(min_val[level], coordinate)
+        else:
+            min_val[level] = coordinate
+            
+        if max_val[level] * min_val[level] >= 0:
+            max_d = max(max_d, max_val[level] - min_val[level] + 1)
+        else:
+            max_d = max(max_d, max_val[level] - min_val[level])
         
         if node.left:
-            if width > 0:
-                cur_width = width * 2 - 1
-            elif width < 0:
-                cur_width = width * 2
+            if coordinate == 0:
+                res = -1
+            elif coordinate > 0:
+                res = coordinate * 2 - 1
             else:
-                cur_width = -1
-            stack.append([node.left, level + 1, cur_width])
-        
+                res = coordinate * 2
+                
+            queue.append((node.left, level + 1, res))
+            
         if node.right:
-            if width > 0:
-                cur_width = width * 2
-            elif width < 0:
-                cur_width = width * 2 + 1
+            if coordinate == 0:
+                res = 1
+            elif coordinate > 0:
+                res = coordinate * 2
             else:
-                cur_width = 1
-            stack.append([node.right, level + 1, cur_width])
-        
-    return max_width
+                res = coordinate * 2 + 1
+                
+            queue.append((node.right, level + 1, res))
+    
+    return max_d
