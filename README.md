@@ -461,6 +461,37 @@ def astar(mat, sx, sy, tx, ty):
     return -1
 ```
 
+## 8. Sorting
+
+### Topological Sort
+A _topological ordering_ is an ordering of the nodes in a directed graph where for each directed edge from node A to node B, node A appears before node B. (__Topological sort can only be appplied upon Directed Acyclic Graph (DAG)__)
+* Pick a node with zero incoming edges
+* Adding the node to topological ordering
+* Decrease the incoming edges count for neighbors of the node
+
+```python
+def topologicalSort(graph):
+    degree = collections.defaultdict(int)
+    
+    for node in graph:
+        for neighbor in graph[node]:
+            degree[neighbor] += 1
+    
+    queue = collections.deque([node for node in graph if degree[node] == 0])
+    order = []
+    
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        
+        for neighbor in graph[node]:
+            degree[neighbor] -= 1
+            if degree[neighbor] == 0:
+                queue.append(neighbor)
+         
+   return order
+```
+
 ## Tricky Questions
 
 ### Finding All Prime Numbers within a Given Limit - Sieve of Eratosthenes
