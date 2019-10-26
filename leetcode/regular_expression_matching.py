@@ -92,3 +92,43 @@ def isMatch(self, s, p):
         return True
     self.cache[(s, p)] = False
     return False
+
+
+# recursive approach
+def isMatch(self, s, p):
+        
+    def search(i, j):
+        while i < len(s) and j < len(p):
+            if s[i] == p[j] or p[j] == '.':
+                if i == len(s) - 1 and j < len(p) - 1 and p[j + 1] == '*':
+                    return search(i, j + 2) or search(i + 1, j + 2)
+                else:
+                    i += 1
+                    j += 1
+                    
+            elif p[j] == '*':
+                if search(i - 1, j + 1) or search(i, j + 1):
+                    return True
+
+                while i < len(s) and (p[j - 1] == s[i] or p[j - 1] == '.'):
+                    if search(i + 1, j + 1):
+                        return True
+                    i += 1
+
+                return False
+            elif j < len(p) - 1 and p[j + 1] == '*':
+                return search(i, j + 2)
+            else:
+                return False
+
+        if i == len(s):
+            if j == len(p):
+                return True
+            else:
+                while j < len(p) - 1 and p[j + 1] == '*':
+                    j += 2
+                return j == len(p)
+
+        return False
+
+    return search(0, 0)
