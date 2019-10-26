@@ -280,6 +280,36 @@ def querySum(root, i, j):
         return querySum(root.left, i, mid) + querySum(root.right, mid + 1, j)
 ```
 
+Binary Indexed Tree (For Prefix Sum)
+```python
+class BinaryIndexedTree:
+    def __init__(self, arr):
+        self.bit = [0] * (len(arr) + 1)
+        self.construct(arr)
+        
+    def update(self, ind, val):
+        
+        ind += 1
+        while ind < len(self.bit):
+            self.bit[ind] += val
+            ind += ind & -ind
+    
+    def construct(self, arr):
+    
+        for i, v in enumerate(arr):
+            self.update(i, v)
+    
+    def sums(self, ind):
+    
+        ind += 1
+        s = 0
+        while ind > 0:
+            s += self.bit[ind]
+            ind -= ind & -ind
+        
+        return s
+```
+
 ### Time Complexities
 Most tree problems could be solved with recursion, whose time complexity depends on the depth of recursion (O(h) - h is the tree height). Notice this could be translated to `O(logN)` for balanced trees and `O(N)` for skewed trees.
 
