@@ -491,6 +491,25 @@ def astar(mat, sx, sy, tx, ty):
     return -1
 ```
 
+### Union Find
+DSU (Disjoint Set Union) is a data structure that can be used to maintain the knowledge of connected components in a graph. Union Find is an algorithm that allows path compression and quick query over DSU. It contains two main operations:
+1. `find`: finds the 'ancestor' of a node in the graph
+2. `union`: draws an edge (x, y) in the graph, connecting the two components together.
+
+```python
+class DSU:
+    def __init__(self):
+        self.p = range(1001)
+    
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+    
+    def union(self, x, y):
+        self.p[self.find(x)] = self.find(y)
+```
+
 ## 8. Sorting
 
 ### Topological Sort
