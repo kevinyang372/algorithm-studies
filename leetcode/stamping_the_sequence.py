@@ -53,3 +53,37 @@ def movesToStamp(self, stamp, target):
         return
     else:
         return res[0]
+
+# work backwards
+def movesToStamp(self, stamp, target):
+    if stamp not in target: return
+    
+    def traverse(curr):
+        replace = False
+        for i in range(len(curr) - len(stamp) + 1):
+            flag = True
+            count = 0
+            for j in range(len(stamp)):
+                if curr[i + j] != '?' and stamp[j] != curr[i + j]:
+                    flag = False
+                    break
+                elif curr[i + j] == '?':
+                    count += 1
+                    
+            if flag and count != len(stamp):
+                replace = [i, i + len(stamp) - 1]
+                break
+        
+        if not replace: return []
+        
+        new_curr = curr[:replace[0]] + '?' * len(stamp) + curr[replace[1] + 1:]
+        
+        if new_curr == "?" * len(target): return [replace[0]]
+        res = traverse(new_curr)
+        
+        if not res:
+            return res
+        else:
+            return res + [replace[0]]
+        
+    return traverse(target)
