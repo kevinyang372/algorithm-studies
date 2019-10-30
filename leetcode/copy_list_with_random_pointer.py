@@ -40,3 +40,31 @@ def copyRandomList(head):
     h.random = copyRandomList(head.random)
 
     return h
+
+# O(N) hashmap
+def copyRandomList(self, head):
+    if not head: return
+    d = {}
+    new_head = Node(head.val, None, None)
+    d[head] = new_head
+    
+    while head:
+        cur = d[head]
+        
+        if head.next in d:
+            cur.next = d[head.next]
+        elif head.next:
+            node = Node(head.next.val, None, None)
+            d[head.next] = node
+            cur.next = d[head.next]
+        
+        if head.random in d:
+            cur.random = d[head.random]
+        elif head.random:
+            node = Node(head.random.val, None, None)
+            d[head.random] = node
+            cur.random = d[head.random]
+        
+        head = head.next
+    
+    return new_head
