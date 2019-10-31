@@ -9,22 +9,21 @@
 # Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
 # Output: false
 
-def isInterleave(s1, s2, s3):
-    if len(s1) + len(s2) != len(s3): return False
+class Solution(object):
+    def __init__(self):
+        self.cache = {}
         
-    d = {}
-    def check(p1, p2, p3):
-        if (p1, p2, p3) in d: return d[p1, p2, p3]
-        if p3 == len(s3): return True
-        if p1 < len(s1) and s1[p1] == s3[p3]:
-            if check(p1 + 1, p2, p3 + 1):
-                d[p1, p2, p3] = True
-                return True
-        if p2 < len(s2) and s2[p2] == s3[p3]:
-            if check(p1, p2 + 1, p3 + 1):
-                d[p1, p2, p3] = True
-                return True
-        d[p1, p2, p3] = False
-        return False
+    def isInterleave(self, s1, s2, s3):
+        if (s1, s2, s3) in self.cache: return self.cache[s1, s2, s3]
+        if len(s1) + len(s2) != len(s3): return False
+        if not s1 and not s2 and not s3: return True
         
-    return check(0, 0, 0)
+        if not s1:
+            res = s2[0] == s3[0] and self.isInterleave(s1, s2[1:], s3[1:])
+        elif not s2:
+            res =  s1[0] == s3[0] and self.isInterleave(s1[1:], s2, s3[1:])
+        else:
+            res = (s1[0] == s3[0] and self.isInterleave(s1[1:], s2, s3[1:])) or (s2[0] == s3[0] and self.isInterleave(s1, s2[1:], s3[1:]))
+        
+        self.cache[s1, s2, s3] = res
+        return res
