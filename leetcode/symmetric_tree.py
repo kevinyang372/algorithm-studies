@@ -58,6 +58,25 @@ def check_symm(node1, node2):
 
     return check
 
+# inorder traversal
+def isSymmetric(self, root):
+        
+    if not root: return True
+    
+    def traverse(node, reverse = False):
+        if not node: return "#"
+        
+        temp = [node.val]
+        if reverse:
+            temp += traverse(node.left, reverse)
+            temp += traverse(node.right, reverse)
+        else:
+            temp += traverse(node.right, reverse)
+            temp += traverse(node.left, reverse)
+        
+        return temp
+    
+    return traverse(root.left, True) == traverse(root.right, False)
 
 
 
