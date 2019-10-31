@@ -53,33 +53,35 @@ class RandomizedSet(object):
     def getRandom(self):
         return self.inputs[random.randint(0, len(self.inputs) - 1)]
 
-#optimized insert and remove
+# hashmap & list
 class RandomizedSet(object):
 
     def __init__(self):
-        self.inputs, self.pos = [], {}
+        self.list = []
+        self.d = {}
+        self.num = 0
         
 
     def insert(self, val):
-        if val not in self.inputs:
-            self.pos[val] = len(self.inputs)
-            self.inputs.append(val)
+        if val not in self.d:
+            self.list.append(val)
+            self.d[val] = self.num
+            self.num += 1
             return True
         return False
         
 
     def remove(self, val):
-        if val in self.pos:
-            pos = self.pos[val]
-            last = self.inputs[-1]
-            self.pos[last] = pos
-            self.inputs[pos] = last
-            self.inputs.pop()
-            self.pos.pop(val, 0)
+        if val in self.d:
+            ind = self.d[val]
+            self.d[self.list[-1]] = ind
+            self.list[ind] = self.list[-1]
+            del self.d[val]
+            self.list.pop()
+            self.num -= 1
             return True
         return False
-    
 
     def getRandom(self):
-        return self.inputs[random.randint(0, len(self.inputs) - 1)]
+        return random.choice(self.list)
 
