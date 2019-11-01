@@ -29,4 +29,7 @@ def topKFrequent(nums, k):
 
     return res
 
+def topKFrequent(self, nums, k):
+    return [x for x, y in collections.Counter(nums).most_common(k)]
+
 
