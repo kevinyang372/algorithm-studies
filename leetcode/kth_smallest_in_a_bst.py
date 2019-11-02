@@ -55,3 +55,24 @@ def kthSmallest(root, k):
             if node.right: stack.append(node.right)
 
     return 
+
+def kthSmallest(self, root, k):
+        
+    def traverse(node, t):
+        origin = t
+        if node.left:
+            res, num = traverse(node.left, t)
+            if res is not None: return res, None
+            t -= num
+            
+        if t == 1: 
+            return node.val, None
+        
+        if node.right:
+            res, num = traverse(node.right, t - 1)
+            if res is not None: return res, None
+            t -= num
+            
+        return None, origin - t + 1
+    
+    return traverse(root, k)[0]
