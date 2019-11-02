@@ -25,11 +25,17 @@ def lastRemaining(self, n):
         l = l[1::2][::-1]
     return l[0]
 
-# iterative
+# iterative dp
 def lastRemaining(self, n):
-    p = [1, n, 1]
-    while p[1]>1:
-        begin, count, diff = p
-        end = begin+ (count-1)*diff
-        p = [end-diff*(count%2), count//2, diff*2*(-1)]
-    return p[0]
+    if n == 1: return 1
+    dp = [1, n, 1]
+    
+    while dp[1] > 1:
+        if dp[1] % 2 == 0:
+            dp[0] = dp[0] + (dp[1] - 1) * dp[2]
+        else:
+            dp[0] = dp[0] + (dp[1] - 2) * dp[2]
+        dp[1] //= 2
+        dp[2] *= -2
+        
+    return dp[0]
