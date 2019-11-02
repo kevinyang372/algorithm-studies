@@ -52,5 +52,31 @@ def decodeString(s):
 
     return res
 
+# recursive
+def decodeString(self, s):
+    if not s: return ""
+    
+    def traverse(substring, i):
+        count = ''
+        res = ''
+        while i < len(substring):
+            v = substring[i]
+            if v.isdigit():
+                count += v
+                i += 1
+            elif v == '[':
+                ind, temp = traverse(substring, i + 1)
+                res += temp * int(count)
+                count = ''
+                i = ind + 1
+            elif v == ']':
+                return i, res
+            else:
+                res += v
+                i += 1
+            
+        return i, res
+    
+    return traverse(s, 0)[1]
 
 
