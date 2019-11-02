@@ -49,3 +49,34 @@ def killProcess(pid, ppid, kill):
 
     return res
 
+# Union Find
+class DSU:
+    def __init__(self):
+        self.p = [i for i in range(100001)]
+    
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+    
+    def union(self, x, y):
+        self.p[self.find(x)] = self.p[y]
+
+class Solution(object):
+    def killProcess(self, pid, ppid, kill):
+        
+        dsu = DSU()
+        
+        for x, y in zip(pid, ppid):
+            if x == kill or y == 0:
+                continue
+            else:
+                dsu.union(x, y)
+                
+        res = []
+        for i in pid:
+            if dsu.find(i) == kill:
+                res.append(i)
+        
+        return res 
+
