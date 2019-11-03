@@ -15,31 +15,29 @@
 # ]
 
 # bfs
-def zigzagLevelOrder(root):
-
+def zigzagLevelOrder(self, root):
     if not root: return
-        
-    queue = [root]
     res = []
-    d = True
+    stack = [root]
+    l2r = True
     
-    while queue:
+    while stack:
         temp = []
-        vals = []
+        curr = []
+        for i in range(len(stack)):
+            curr.append(stack[i].val)
+            if stack[i].left:
+                temp.append(stack[i].left)
+            if stack[i].right:
+                temp.append(stack[i].right)
         
-        if d:
-            for i in range(len(queue)):
-                if queue[-1 - i].right: temp.append(queue[-1 - i].right)
-                if queue[-1 - i].left: temp.append(queue[-1 - i].left)
-                vals.append(queue[i].val)
+        if l2r:
+            res.append(curr)
+            l2r = False
         else:
-            for i in range(len(queue)):
-                if queue[-1 - i].left: temp.append(queue[-i - 1].left)
-                if queue[-1 - i].right: temp.append(queue[-i - 1].right)
-                vals.append(queue[i].val)
-        
-        res.append(vals)
-        queue = temp
-        d = not d
-    
+            res.append(curr[::-1])
+            l2r = True
+            
+        stack = temp
+            
     return res
