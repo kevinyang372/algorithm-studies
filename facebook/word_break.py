@@ -18,16 +18,21 @@
 # String: "abcx"
 # Output: false
 
-def wordBreak(m, s):
-
-    if not m: return False
-    if s in m and m[s] > 0: return True
-
-    for i in range(1, len(s)):
-        if s[:i] in m and m[s[:i]] > 0:
-            m[s[:i]] -= 1
-            if wordBreak(m, s[i:]):
+# word break backtracking + memoization
+def wordBreak(self, s, wordDict):
+        
+    wordDict = set(wordDict)
+    cache = set()
+    
+    def traverse(sub):
+        if sub in wordDict: return True
+        if sub in cache: return False
+        
+        for i in range(1, len(sub)):
+            if sub[:i] in wordDict and traverse(sub[i:]):
                 return True
-            m[s[:i]] += 1
-
-    return False
+        
+        cache.add(sub)
+        return False
+    
+    return traverse(s)
