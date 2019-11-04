@@ -56,3 +56,42 @@ def removeKdigits(self, num, k):
         t += 1
 
     return num[t:] if num[t:] else '0'
+
+# stack
+def removeKdigits(self, num, k):
+        
+    removed = 0
+    stack = []
+    ind = 0
+    
+    while ind < len(num) and removed < k:
+        if not stack or num[ind] >= stack[-1]:
+            stack.append(num[ind])
+            ind += 1
+        elif num[ind] < stack[-1]:
+            removed += 1
+            stack.pop()
+        
+    res = ''
+    precedingZero = True
+    
+    while removed == k and ind < len(num):
+        stack.append(num[ind])
+        ind += 1
+    
+    while removed < k:
+        stack.pop()
+        removed += 1
+    
+    for i in stack:
+        if i != '0' and precedingZero:
+            precedingZero = False
+        elif i == '0' and precedingZero:
+            continue
+        
+        res += i
+            
+    if res == '':
+        return '0'
+    else:
+        return res
