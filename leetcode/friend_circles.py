@@ -52,3 +52,32 @@ def findCircleNum(self, M):
         students -= visited
         
     return count
+
+# union find
+class DSU:
+    def __init__(self):
+        self.p = [i for i in range(201)]
+        
+    def find(self, x):
+        if x != self.p[x]:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+    
+    def union(self, x, y):
+        self.p[self.find(x)] = self.p[y]
+
+
+class Solution(object):
+    def findCircleNum(self, M):
+        
+        dsu = DSU()
+        for i in range(len(M) - 1):
+            for j in range(i + 1, len(M)):
+                if M[i][j] == 1 and dsu.find(i) != dsu.find(j):
+                    dsu.union(i, j)
+        
+        visited = set()
+        for i in range(len(M)):
+            visited.add(dsu.find(i))
+            
+        return len(visited)
