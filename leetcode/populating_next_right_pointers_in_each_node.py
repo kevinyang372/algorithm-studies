@@ -48,6 +48,35 @@ def connect(self, root):
     helper(root)
     return root
 
+# recursive
+def connect(self, root):
+        
+    def traverse(node):
+        if not node: return
+        
+        prev = None
+        head = None
+        
+        while node:
+            if node.left:
+                if prev:
+                    prev.next = node.left
+                if not head:
+                    head = node.left
+                prev = node.left
+            if node.right:
+                if prev:
+                    prev.next = node.right
+                if not head:
+                    head = node.right
+                prev = node.right
+            node = node.next
+        
+        traverse(head)
+    
+    traverse(root)
+    return root
+
 # iterative
 def connect(self, root):
     head = root
