@@ -88,6 +88,34 @@ s = 'abbac'
 [s[i:j] for i in range(len(s)) for j in range(i + 1, len(s) + 1)]
 ```
 
+### Pattern Matching: KMP (Knuth Morris Pratt)
+Given two strings s (the "search string") and t (the "text"), find the first occurrence of s in t
+* Naive appoarch time complexity: O(MN)
+* KMP optimize the time by precomputing a prefix-to-suffix table for the pattern
+```python
+def kmp(pattern, s):
+    dp = [0] * len(pattern)
+    
+    for i, v in enumerate(pattern):
+        if i > 0 and v == pattern[dp[i - 1]]:
+            dp[i] = dp[i - 1] + 1
+        
+    i = j = 0
+    while i < len(s):
+        if s[i] == pattern[j]:
+            i += 1
+            j += 1
+            
+            if j == len(pattern):
+                return i - j
+        elif j > 0:
+            j = dp[j - 1]
+        else:
+            i += 1
+            
+    return -1
+```
+
 ## 3. Linked Lists
 
 ### Time Complexities
