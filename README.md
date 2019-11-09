@@ -193,6 +193,27 @@ class FreqStack(object):
         return x
 ```
 
+### Monotonic Stack
+Given an unsorted list, find all indexes (i, j) such that j > i, A[i] <= A[j] and A[j] is the smallest possible value.  If there are multiple such indexes j, select the smallest possible j.
+* Naive approach: O(N^2)
+* Monotonic stack: O(NlogN)
+
+```python
+def findPairs(A):
+   min_ind = [-1] * len(A)
+
+   inds = sorted(range(len(A)), key=lambda x: (A[x], x))
+   stack = []
+
+   for i in range(len(inds)):
+       while stack and inds[i] >= stack[-1]:
+           n = stack.pop()
+           min_ind[n] = inds[i]
+       stack.append(inds[i])
+      
+   return min_ind
+```
+
 ## 5. Binary Trees
 
 ### Traversing
