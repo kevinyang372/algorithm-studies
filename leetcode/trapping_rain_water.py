@@ -66,3 +66,33 @@ def trap(self, height):
         ans += min(left_max[i], right_max[len(height) - i - 1]) - height[i]
     
     return ans
+
+# stack approach (O(N))
+def trap(self, height):
+        
+    stack = []
+    res = 0
+    
+    for i in height:
+        if not stack:
+            if i == 0:
+                continue
+            else:
+                stack.append(i)
+        else:
+            if i >= stack[0]:
+                max_val = stack[0]
+                while stack:
+                    res += max_val - stack.pop()
+            elif i > stack[-1]:
+                ind = len(stack) - 1
+                while ind > 0:
+                    if stack[ind] >= i:
+                        break
+                    else:
+                        res += i - stack[ind]
+                        stack[ind] = i
+                        ind -= 1
+            stack.append(i)   
+                
+    return res
