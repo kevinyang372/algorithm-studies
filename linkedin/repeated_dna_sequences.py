@@ -8,6 +8,7 @@
 
 # Output: ["AAAAACCCCC", "CCCCCAAAAA"]
 
+# O(N^2)
 def findRepeatedDnaSequences(self, s: str) -> List[str]:
         
     if len(s) < 10: return
@@ -36,5 +37,19 @@ def findRepeatedDnaSequences(self, s: str) -> List[str]:
     for sub in range(len(s) - 10):
         if kmp(s[sub + 1:], s[sub:sub + 10]):
             res.add(s[sub:sub + 10])
+            
+    return res
+
+# O(N)
+def findRepeatedDnaSequences(self, s: str) -> List[str]:
+        
+    if len(s) < 10: return
+    seen, res = set(), set()
+    
+    for sub in range(len(s) - 9):
+        if s[sub:sub + 10] in seen:
+            res.add(s[sub:sub + 10])
+        else:
+            seen.add(s[sub:sub + 10])
             
     return res
