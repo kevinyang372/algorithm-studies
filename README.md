@@ -487,6 +487,33 @@ def findFirstOccurrence(t, A):
     return occurrence 
 ```
 
+### Find the kth Smallest / Largest Element in an Unsorted Array
+Naive Solution: Sort the array and find the kth element (O(NlogN))
+
+Improved Solution: Quick Select (O(N))
+
+```python
+def kthLargest(num, k):
+    if k < 1: return -1
+    pivot = random.randint(0, len(num) - 1)
+    smaller, equal, larger = [], [], []
+    
+    for i in num:
+        if i < num[pivot]:
+            smaller.append(i)
+        elif i == num[pivot]:
+            equal.append(i)
+        else:
+            larger.append(i)
+            
+    if len(smaller) >= k:
+        return kthLargest(smaller, k)
+    elif len(smaller) + len(equal) >= k:
+        return equal[0]
+    else:
+        return kthLargest(larger, k - len(smaller) - len(equal))
+```
+
 ### Standard BFS:
 DFS could be done with simple recursion. But BFS needs to be done with queues.
 
@@ -589,6 +616,26 @@ def topologicalSort(graph):
          
    return order
 ```
+
+## Design Patterns
+
+### Listener / Observer
+* Observer has a list of listeners
+* An update on observer is broadcasted to all listeners
+
+### Singleton
+* Limit Creation of a class to only one object
+* Examples: caches, thread pools, registries
+* Class initiation within a class (nested inner class)
+
+### Model View Controller
+* Model - Store the data
+* View - Display the data
+* Controller - Modify the data
+
+### Factory Method
+* Allow the creation of product objects without specifying thier concrete classes (interface)
+* Create a class that defines a method that is used for creating objects
 
 ## Tricky Questions
 
