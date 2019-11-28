@@ -30,3 +30,11 @@ def subsets(nums):
         full.append(i + [par])
 
     return full
+
+def subsets(self, nums):
+    if not nums: return [[]]
+    
+    first = nums[0]
+    res = self.subsets(nums[1:])
+    
+    return res + [[first] + t for t in res]
