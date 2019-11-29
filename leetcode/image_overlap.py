@@ -21,6 +21,7 @@
 # 1 <= A.length = A[0].length = B.length = B[0].length <= 30
 # 0 <= A[i][j], B[i][j] <= 1
 
+# O(N^2)
 def largestOverlap(self, A, B):
         
     dA, dB = set(), set()
@@ -33,13 +34,11 @@ def largestOverlap(self, A, B):
                 dB.add((i, j))
       
     max_val = 0
+    c = collections.Counter()
     for x, y in dA:
         for m, n in dB:
             dx, dy = x - m, y - n
-            count = 0
-            for i, j in dA:
-                if (i - dx, j - dy) in dB:
-                    count += 1
-            max_val = max(max_val, count)
+            c[dx, dy] += 1
+            max_val = max(max_val, c[dx, dy])
             
     return max_val
