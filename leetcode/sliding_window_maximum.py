@@ -20,7 +20,56 @@
 # Follow up:
 # Could you solve it in linear time?
 
-# monotonic queue
+# monotonic queue O(N)
+class MonotonicQueue:
+    def __init__(self):
+        self.q = collections.deque()
+        
+    def push(self, ele):
+        if not self.q:
+            self.q.append([ele, 0])
+            return
+        
+        count = 0
+        while self.q and self.q[-1][0] < ele:
+            _, num = self.q.pop()
+            count += num + 1
+        
+        self.q.append([ele, count])
+    
+    def pop(self):
+        if self.q[0][1] == 0:
+            self.q.popleft()
+        else:
+            self.q[0][1] -= 1
+    
+    def max(self):
+        return self.q[0][0]
+
+
+class Solution(object):
+    def maxSlidingWindow(self, nums, k):
+        if not nums: return
+        if k == 1: return nums
+        
+        d = MonotonicQueue()
+        
+        for i in range(k):
+            d.push(nums[i])
+        
+        res = []
+        res.append(d.max())
+        
+        ind = k
+        while ind < len(nums):
+            d.pop()
+            d.push(nums[ind])
+            res.append(d.max())
+            ind += 1
+            
+        return res
+
+
 def maxSlidingWindow(self, nums, k):
         
     if not nums: return []
