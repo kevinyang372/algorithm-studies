@@ -214,6 +214,40 @@ def findPairs(A):
    return min_ind
 ```
 
+### Monotonic Queue
+[Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)
+* `Max`, `Push`, `Remove` all in O(1) time
+```python
+class MonotonicQueue:
+    # the q keeps track of two elements
+    # 1 - the value
+    # 2 - how many elements have been deleted between two nodes
+    def __init__(self):
+        self.q = collections.deque()
+        
+    def push(self, ele):
+        if not self.q:
+            self.q.append([ele, 0])
+            return
+        
+        count = 0
+        while self.q and self.q[-1][0] < ele:
+            _, num = self.q.pop()
+            count += num + 1
+        
+        self.q.append([ele, count])
+    
+    # remove from front
+    def remove(self):
+        if self.q[0][1] == 0:
+            self.q.popleft()
+        else:
+            self.q[0][1] -= 1
+    
+    def max(self):
+        return self.q[0][0]
+```
+
 ## 5. Binary Trees
 
 ### Traversing
