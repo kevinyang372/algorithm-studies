@@ -668,6 +668,37 @@ else:
     dosomethingelse()
 ```
 
+### Delete items in Dictionary in Iteration
+* Use `d.keys()`: create a copy of keys
+* (For set): use filter e.g. `set(filter(lambda x: x % 2 == 0, A))`
+
+```python
+for i in d.keys():
+    if somecondition(i):
+        del d[i]
+```
+
+### Creating Dictionary from Two Lists
+
+```python
+a = [1,2,3]
+b = ['a','b','c']
+
+d = dict(zip(a, b))
+```
+
+### @lru_cache
+* Simple decorator fix for memoization
+* Default maximum size of `@lru_cache` is 128 (Could be set to None)
+
+```python
+@lru_cache(maxsize=None)
+def fib(N):
+    if N < 2:
+        return N
+    return fib(N - 1) + fib(N - 2)
+```
+
 ## Design Patterns
 
 ### Listener / Observer
