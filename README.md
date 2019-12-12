@@ -651,6 +651,23 @@ def topologicalSort(graph):
    return order
 ```
 
+## Idiomatic Python
+
+### For / Else
+* Help get rid of the flag variables
+* Two scenarios:
+  * Finish the loop without encountering `break` -> entering else
+  * Finish the loop encountering `break` -> exit
+```python
+for item in items:
+    if encounter(conditions):
+        dosomething()
+        break
+else:
+    # conditions not satisfied
+    dosomethingelse()
+```
+
 ## Design Patterns
 
 ### Listener / Observer
