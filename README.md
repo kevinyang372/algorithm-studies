@@ -669,11 +669,11 @@ else:
 ```
 
 ### Delete items in Dictionary in Iteration
-* Use `d.keys()`: create a copy of keys
+* Use `list(d)`: create a copy of keys
 * (For set): use filter e.g. `set(filter(lambda x: x % 2 == 0, A))`
 
 ```python
-for i in d.keys():
+for i in list(d):
     if somecondition(i):
         del d[i]
 ```
