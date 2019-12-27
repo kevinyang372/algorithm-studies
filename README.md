@@ -651,6 +651,54 @@ def topologicalSort(graph):
    return order
 ```
 
+## Idiomatic Python
+
+### For / Else
+* Help get rid of the flag variables
+* Two scenarios:
+  * Finish the loop without encountering `break` -> entering else
+  * Finish the loop encountering `break` -> exit
+```python
+for item in items:
+    if encounter(conditions):
+        dosomething()
+        break
+else:
+    # conditions not satisfied
+    dosomethingelse()
+```
+
+### Delete items in Dictionary in Iteration
+* Use `list(d)`: create a copy of keys
+* (For set): use filter e.g. `set(filter(lambda x: x % 2 == 0, A))`
+
+```python
+for i in list(d):
+    if somecondition(i):
+        del d[i]
+```
+
+### Creating Dictionary from Two Lists
+
+```python
+a = [1,2,3]
+b = ['a','b','c']
+
+d = dict(zip(a, b))
+```
+
+### @lru_cache
+* Simple decorator fix for memoization
+* Default maximum size of `@lru_cache` is 128 (Could be set to None)
+
+```python
+@lru_cache(maxsize=None)
+def fib(N):
+    if N < 2:
+        return N
+    return fib(N - 1) + fib(N - 2)
+```
+
 ## Design Patterns
 
 ### Listener / Observer
