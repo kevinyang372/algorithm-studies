@@ -620,6 +620,40 @@ class DSU:
         self.p[self.find(x)] = self.find(y)
 ```
 
+### Minimum Spanning Tree
+Given a connected weighted undirected graph, find the subset that connects all the vertices together, without any cycles and with the minimum possible total edge weight.
+* Greedy approach:
+  * Find the edge with minimum weight
+  * If the edge won't cause a cycle, add it to the tree
+  * Continue until finding N - 1 edges where N is the number of vertices
+
+```python
+
+# edges is in the format of (cost, node 1, node 2)
+
+def minimumSpanningTree(n, edges):
+        
+    uf = range(n + 1)
+    
+    def find(x):
+        if x != uf[x]:
+            uf[x] = find(uf[x])
+        return uf[x]
+    
+    res = 0
+
+    for cost, n1, n2 in sorted(edges):
+        x, y = find(n1), find(n2)
+            
+        if x != y:
+            uf[x] = y
+            res += cost
+            n -= 1
+        
+        if n == 0:
+            return res
+```
+
 ## 8. Sorting
 
 ### Topological Sort
