@@ -98,11 +98,10 @@ def calculateMinDistance(board):
         return False
     
     l, r = 0, len(board) + len(board[0])
-    while l < r:
+    while l <= r:
 
-        mid = (l + r) // 2
+        mid = l + (r - l) / 2
         points = getPoints(mid)
-        print(mid, points, checkPossible(points, mid))
 
         if checkPossible(points, mid):
             r = mid
@@ -111,4 +110,12 @@ def calculateMinDistance(board):
 
     return l
 
+T = int(input())
+for i in range(T):
+    R, C = map(int, input().split(' '))
+    board = []
     
+    for _ in range(R):
+        board.append(list(map(int, input().split(' '))))
+
+    print("Case #%s: %s" % (i + 1, calculateMinDistance(board)))
