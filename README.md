@@ -119,6 +119,18 @@ def kmp(pattern, s):
     return -1
 ```
 
+### String Hashing
+Convert strig into integers for pattern matching (same length)
+* `f(s) = sum(s_i * 128 ** (len(s) - i - 1)) mod (10 ** 9 + 7)` where i is the index of each character
+
+```
+def convert(s):      
+    l, mod = 0, 10 ** 9 + 7
+    for i in s:
+        l = (l * 128 + ord(i)) % mod
+    return l
+```
+
 ## 3. Linked Lists
 
 ### Time Complexities
