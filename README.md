@@ -123,7 +123,7 @@ def kmp(pattern, s):
 Convert strig into integers for pattern matching (same length)
 * `f(s) = sum(s_i * 128 ** (len(s) - i - 1)) mod (10 ** 9 + 7)` where i is the index of each character
 
-```
+```python
 def convert(s):      
     l, mod = 0, 10 ** 9 + 7
     for i in s:
