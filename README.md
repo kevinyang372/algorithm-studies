@@ -99,9 +99,17 @@ Given two strings s (the "search string") and t (the "text"), find the first occ
 def kmp(pattern, s):
     dp = [0] * len(pattern)
     
-    for i, v in enumerate(pattern):
-        if i > 0 and v == pattern[dp[i - 1]]:
-            dp[i] = dp[i - 1] + 1
+    i, j = 1, 0
+    while i < len(pattern):
+        if pattern[i] == pattern[j]:
+            j += 1
+            dp[i] = j
+            i += 1
+        elif j == 0:
+            i += 1
+        else:
+            j = dp[j - 1]
+    
         
     i = j = 0
     while i < len(s):
