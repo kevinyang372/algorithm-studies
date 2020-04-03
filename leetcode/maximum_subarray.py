@@ -35,3 +35,15 @@ def maxSubArray_true(nums):
         if nums[i-1] > 0:
             nums[i] += nums[i-1]
     return max(nums)
+
+# prefix sum
+def maxSubArray(self, nums: List[int]) -> int:
+    minimum = sums = 0
+    res = -float('inf')
+    
+    for num in nums:
+        sums += num
+        res = max(res, sums - minimum)
+        minimum = min(minimum, sums)
+        
+    return res
