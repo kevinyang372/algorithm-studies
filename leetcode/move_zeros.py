@@ -42,3 +42,28 @@ def moveZeroes(self, nums):
             j += 1
             
     return nums
+
+def moveZeroes(self, nums: List[int]) -> None:
+    i = j = 0
+    
+    while i < len(nums) and nums[i] == 0 :
+        i += 1
+    
+    while j < len(nums) and nums[j] != 0:
+        j += 1
+    
+    if i == len(nums) or j == len(nums): return nums
+    
+    while i < len(nums):
+        if nums[i] == 0:
+            i += 1
+            continue
+        
+        if j < i:
+            nums[i], nums[j] = nums[j], nums[i]
+            while j < len(nums) and nums[j] != 0:
+                j += 1
+                
+        i += 1
+    
+    return nums
