@@ -62,3 +62,20 @@ def checkValidString(s):
         star_stack.pop()
 
     return len(star_stack) >= len(stack)
+
+
+# dp
+def checkValidString(self, s: str) -> bool:
+        
+    @lru_cache
+    def traverse(i, p):
+        if p < 0: return False
+        if i > len(s) - 1: return p == 0
+        if s[i] == ')':
+            return traverse(i + 1, p - 1)
+        elif s[i] == '(':
+            return traverse(i + 1, p + 1)
+        else:
+            return traverse(i + 1, p) or traverse(i + 1, p + 1) or traverse(i + 1, p - 1)
+        
+    return traverse(0, 0)
