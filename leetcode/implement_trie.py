@@ -93,3 +93,38 @@ class TreeNode:
 # obj.insert(word)
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
+
+class TrieNode:
+    def __init__(self, l):
+        self.letter = l
+        self.children = {}
+        self.end = False
+    
+class Trie:
+
+    def __init__(self):
+        self.root = TrieNode("dummy")
+        
+
+    def insert(self, word: str) -> None:
+        node = self.root
+        for char in word:
+            if char not in node.children: node.children[char] = TrieNode(char)
+            node = node.children[char]
+        node.end = True
+        
+
+    def search(self, word: str) -> bool:
+        node = self.root
+        for char in word:
+            if char not in node.children: return False
+            node = node.children[char]
+        return node.end
+        
+
+    def startsWith(self, prefix: str) -> bool:
+        node = self.root
+        for char in prefix:
+            if char not in node.children: return False
+            node = node.children[char]
+        return True
