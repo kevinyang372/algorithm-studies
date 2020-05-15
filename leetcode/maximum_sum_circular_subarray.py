@@ -67,3 +67,25 @@ def maxSubarraySumCircular(self, A):
         res = max(res, dp[i + len(A)] - sums[i])
         
     return res
+
+# min queue
+def maxSubarraySumCircular(self, A: List[int]) -> int:
+    total = 0
+    min_sum = collections.deque([0])
+    record = [0]
+    res = -float('inf')
+    
+    for i, v in enumerate(A + A):
+        total += v
+        if i - len(A) > -1 and record[i - len(A)] == min_sum[0]: min_sum.popleft()
+        
+        if min_sum:
+            res = max(res, total - min_sum[0])
+        else:
+            res = max(res, total)
+        
+        while min_sum and min_sum[-1] > total: min_sum.pop()
+        min_sum.append(total)
+        record.append(total)
+        
+    return res
