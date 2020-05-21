@@ -76,3 +76,15 @@ def kthSmallest(self, root, k):
         return None, origin - t + 1
     
     return traverse(root, k)[0]
+
+
+def kthSmallest(self, root: TreeNode, k: int) -> int:
+    d = {}
+    def traverse(node, kth):
+        if node.left: kth = traverse(node.left, kth) + 1
+        d[kth] = node.val
+        if node.right: kth = traverse(node.right, kth + 1)
+        return kth
+    
+    traverse(root, 1)
+    return d[k]
