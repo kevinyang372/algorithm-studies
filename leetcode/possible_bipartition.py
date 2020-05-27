@@ -61,3 +61,28 @@ def possibleBipartition(self, N, dislikes):
         if not temp: return False
         
     return True
+
+# dfs
+def possibleBipartition(self, N: int, dislikes: List[List[int]]) -> bool:
+    graph = collections.defaultdict(set)
+    
+    for x, y in dislikes:
+        graph[x].add(y)
+        graph[y].add(x)
+        
+    visited = [-1] * (N + 1)
+    def dfs(node, curr_level):
+        if visited[node] > -1: return (curr_level - visited[node]) % 2 == 0
+        
+        visited[node] = curr_level
+        for next in graph[node]:
+            if not dfs(next, curr_level + 1): 
+                return False
+        return True
+    
+    for n in range(1, N + 1):
+        if visited[n] < 0 and not dfs(n, 0): 
+            print(n)
+            return False
+    
+    return True
