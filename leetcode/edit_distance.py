@@ -41,22 +41,19 @@ def minDistance(word1, word2):
 # Levenshtein Distance
 def minDistance_dp(word1, word2):
 
-    if word1 == "":
-        return len(word2)
-    elif word2 == "":
-        return len(word1)
-
-    mat = [[0] * (len(word1) + 1) for _ in range(len(word2) + 1)]
-
-    for m in range(len(word2) + 1):
-        for n in range(len(word1) + 1):
-            if m == 0:
-                mat[m][n] = n
-            elif n == 0:
-                mat[m][n] = m
-            elif word1[n - 1] == word2[m - 1]:
-                mat[m][n] = mat[m - 1][n - 1]
+    dp = [[0] * (len(word1) + 1) for _ in range(len(word2) + 1)]
+        
+    for i in range(len(dp)):
+        for j in range(len(dp[0])):
+            if i == 0 and j == 0: 
+                continue
+            elif i == 0: 
+                dp[i][j] = dp[i][j - 1] + 1
+            elif j == 0: 
+                dp[i][j] = dp[i - 1][j] + 1
+            elif word1[j - 1] == word2[i - 1]: 
+                dp[i][j] = dp[i - 1][j - 1]
             else:
-                mat[m][n] = min(mat[m - 1][n], mat[m][n - 1], mat[m - 1][n - 1]) + 1
-
-    return mat[len(word2)][len(word1)]
+                dp[i][j] = min(dp[i - 1][j], dp[i - 1][j - 1], dp[i][j - 1]) + 1
+                
+    return dp[-1][-1]
