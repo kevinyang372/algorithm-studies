@@ -56,3 +56,20 @@ def reconstructQueue(self, people):
         heapq.heapify(q)
     
     return res
+
+# reconstruction from shortest person
+def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+    res = [None] * len(people)
+    p = sorted(people, reverse = True)
+    
+    while p:
+        h, ind = p.pop()
+        
+        temp = ind
+        for i in range(len(people)):
+            if i > temp: break
+            if res[i] and res[i][0] < h:
+                temp += 1
+        res[temp] = [h, ind]
+        
+    return res
