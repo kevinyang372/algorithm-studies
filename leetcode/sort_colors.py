@@ -27,3 +27,20 @@ def sortColors(self, nums):
             nums.insert(ind[temp], temp)
 
         ind[v:] = [i + 1 for i in ind[v:]]
+
+# inplace O(N)
+def sortColors(self, nums: List[int]) -> None:
+    
+    heads = [-1] * 3
+    
+    for i in range(len(nums)):
+        temp = org = nums[i]
+        while temp + 1 < len(heads):
+            if heads[temp + 1] >= 0:
+                if heads[org] < 0: heads[org] = heads[temp + 1]
+                nums[heads[temp + 1]], nums[i] = nums[i], nums[heads[temp + 1]]
+                heads[temp + 1] += 1
+            temp += 1
+        if heads[org] < 0: heads[org] = i
+            
+    return nums
