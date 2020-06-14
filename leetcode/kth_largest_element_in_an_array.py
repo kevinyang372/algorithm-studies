@@ -27,5 +27,26 @@ def findKthLargest(nums, k):
     return -res
 
 
-
+def findKthLargest(self, nums: List[int], k: int) -> int:
+        
+    def select(arr, k):
+        pivot = arr[0]
+        
+        left, middle, right = [], [], []
+        for i in arr:
+            if i > pivot:
+                right.append(i)
+            elif i == pivot:
+                middle.append(i)
+            else:
+                left.append(i)
+        
+        if len(right) >= k:
+            return select(right, k)
+        elif len(right) + len(middle) >= k:
+            return pivot
+        else:
+            return select(left, k - len(right) - len(middle))
+            
+    return select(nums, k)
 
