@@ -57,3 +57,21 @@ def findCheapestPrice(self, n, flights, src, dst, K):
                     visited[n, trans] = cost + costs[node, n]
                     heapq.heappush(frontier, (cost + costs[node, n], n, trans))
     return -1
+
+# TLE
+def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+    d = collections.defaultdict(dict)
+    
+    for s, e, c in flights:
+        d[s][e] = c
+    
+    @lru_cache
+    def search(node, k):
+        if node == dst: return 0
+        if k == 0 or not d[node]: return float('inf')
+        
+        return min(d[node][other] + search(other, k-1) for other in d[node])
+    
+    res = search(src, K +  1)
+    if res == float('inf'): return -1
+    return res
