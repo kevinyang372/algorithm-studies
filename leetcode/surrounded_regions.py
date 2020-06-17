@@ -70,3 +70,36 @@ def inbound(self, current):
         return False
     
     return True
+
+
+# TLE
+def solve(self, board: List[List[str]]) -> None:
+        
+    visited = set()
+    
+    def search(i, j):
+        if i == 0 or i == len(board) - 1 or j == 0 or j == len(board[0]) - 1:
+            on_border = True
+        else:
+            on_border = False
+            
+        visited.add((i, j))
+        connected = [(i, j)]
+        
+        for di, dj in [[0, 1], [0, -1], [1, 0], [-1, 0]]:
+            if 0 <= i + di < len(board) and 0 <= j + dj < len(board[0]) and board[i + di][j + dj] == 'O' and (i + di, j + dj) not in visited:
+                temp, lis = search(i + di, j + dj)
+                on_border = on_border or temp
+                connected += lis
+        
+        return on_border, connected
+    
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == 'O' and (i, j) not in visited:
+                border, connected = search(i, j)
+                if not border:
+                    for ii, jj in connected:
+                        board[ii][jj] = 'X'
+                        
+    return board
