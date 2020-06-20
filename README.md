@@ -127,16 +127,30 @@ def kmp(pattern, s):
     return -1
 ```
 
-### String Hashing
-Convert strig into integers for pattern matching (same length)
-* `f(s) = sum(s_i * 128 ** (len(s) - i - 1)) mod (10 ** 9 + 7)` where i is the index of each character
-
+### Pattern Matching: Rabin Karp
+Given two strings s (the "search string") and t (the "text"), find the first occurrence of s in t
+* Compute the hash of substrings and find matches for the hashs
+* Optimize the time complexity to O(M + N) by using the 'rolling hashes' technic
 ```python
-def convert(s):      
-    l, mod = 0, 10 ** 9 + 7
-    for i in s:
-        l = (l * 128 + ord(i)) % mod
-    return l
+def rabin_karp(pattern, s):
+
+    mod = 2 ** 63 - 1
+    p = pow(26, len(pattern), mod)
+    to_match = 0
+    
+    for c in pattern:
+        to_match = (to_match * 26 + ord(c)) % mod
+    
+    start = 0
+    for i in range(len(pattern)):
+        start = (start * 26 + ord(s[i])) % mod
+    
+    if start == to_match: return True
+    for i in range(0, len(s) - len(pattern)):
+        start = (start * 26 + ord(s[i + len(pattern)]) - ord(s[i]) * p) % mod
+        if start == to_match: return True
+        
+    return False
 ```
 
 ## 3. Linked Lists
