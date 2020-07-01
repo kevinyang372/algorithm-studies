@@ -12,7 +12,8 @@
 ### Key Functions
 * `bisect.bisect`: find a position in list where an element needs to be inserted to keep the list sorted
   * `bisect_left` and `bisect_right`: only different when the element is already in the list. `bisect_left` inserts into the leftmost position and `bisect_right` inserts into the rightmost position
-  * `insort`: insert an element to the list while keeping the list as sorted.
+  * You could also pass a `lo` (default: 0) or `hi` (default: length of the input) parameter to find the index within that range
+* `insort`: insert an element to the list while keeping the list as sorted.
 ```python
 import bisect
 a = [1,2,3,5]
@@ -20,6 +21,8 @@ bisect.bisect(a, 4)
 # returns 3
 bisect.insort(a, 4)
 # a = [1,2,3,4,5]
+bisect.bisect(a, 4, lo=0, hi=2)
+# returns 2
 ```
 * How copy works: <br>
   __shallow copy__: constructing a new collection object and then populating it with references to the child objects found in the original <br>
