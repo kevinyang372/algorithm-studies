@@ -22,9 +22,9 @@ CPU Bound type problems are caused by slow CPU operations. This usually happens 
   - The processes all run at the same time on different processors
   - Requires many CPUs / cores
 
-## Pre-emptive Multitasking
+## Pre-emptive Multitasking (Multithreading)
 In Python, the library that uses the pre-emptive multitasking is `threading`. It works by allowing users to create multiple threads for the tasks and 
-allow the processors to switch between them
+allow the processors to switch between them. This increases the utility of a single CPU by switching to a new thread when encountering a wait for I/O output.
 ```Python
 import concurrent.futures
 import requests
