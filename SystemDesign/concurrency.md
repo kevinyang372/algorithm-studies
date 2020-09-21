@@ -67,6 +67,14 @@ I/O processes.
 
 However, for CPU Bound problems, pre-emnptive Multitasking will not help as we are still one CPU and switching threads will not increase the computational power available
 
+**Locks**\
+As mentioned before, data that are not thread-safe could be corrupted due to the modification coming from multiple threads at the same time. One possible solution to this problem is `lock`, which could stop other threads from accessing the data. The `Lock` class in Python has two methods: `acquire` (locks the thread) and `release` (unlocks the thread). One can also use the context manager of the lock to ensure that the lock will be released when the process completes.
+
+However, despite the benefits of the locks, there could occur a condition of `dead lock` where the threads are locked forever and no execution will be performed. Deadlock could occur under two possible scenarios:
+- A bad implementation of threads where a Lock is not released properly.
+- A problem in the design schema of a program that does not foresee all the possible calls from the blocked threads waiting for the lock, and that are necessary for the completion of the thread with the lock.
+
+
 ## Cooperative Multitasking
 The library that adapts cooperative multitasking is `asyncio`. `asyncio` introduces event loop into the execution. \
 The event loop has the following attributes: 

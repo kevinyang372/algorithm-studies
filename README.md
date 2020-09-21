@@ -192,7 +192,7 @@ class MaxStack(object):
     def push(self, x):
         self.stack.append(x)
         if self.cache:
-            self.cache.append((max(x, self.cache[-1]), min(x, self.cache[-1]))
+            self.cache.append((max(x, self.cache[-1]), min(x, self.cache[-1])))
         else:
             self.cache.append((x, x))
 
