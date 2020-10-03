@@ -1,5 +1,4 @@
 from threading import Condition, Thread
-import time
 
 class ZeroEvenOdd:
     def __init__(self, n):
