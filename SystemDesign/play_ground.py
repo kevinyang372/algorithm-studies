@@ -1,60 +1,48 @@
-from threading import Condition, Thread
+from threading import Thread, Semaphore, Barrier
 
-class ZeroEvenOdd:
-    def __init__(self, n):
-        self.n = n
-        
-        self.call_lock = Condition()
-        self.state = 0
-        
-        
-    # printNumber(x) outputs "x", where x is an integer.
-    def zero(self, printNumber: 'Callable[[int], None]') -> None:
-        for i in range(self.n):
-            with self.call_lock:
-                while self.state: self.call_lock.wait()
-                printNumber(0)
+class H2O:
+    def __init__(self):
+        self.hydrogen_lock = Semaphore(2)
+        self.oxygen_lock = Semaphore(1)
+        self.barrier = Barrier(3)
 
-                if i % 2:
-                    self.state = 1
-                else:
-                    self.state = 2
 
-                self.call_lock.notify_all()
-            
-        
-    def even(self, printNumber: 'Callable[[int], None]') -> None:
-        for i in range(2, self.n + 1, 2):
-            with self.call_lock:
-                while self.state != 1: self.call_lock.wait()
+    def hydrogen(self, releaseHydrogen: 'Callable[[], None]') -> None:
+        self.hydrogen_lock.acquire()
+        self.barrier.wait()
+        # releaseHydrogen() outputs "H". Do not change or remove this line.
+        releaseHydrogen()
+        self.hydrogen_lock.release()
 
-                printNumber(i)
-                self.state = 0
-                self.call_lock.notify_all()
-        
-        
-    def odd(self, printNumber: 'Callable[[int], None]') -> None:
-        for i in range(1, self.n + 1, 2):
-            with self.call_lock:
-                while self.state != 2: self.call_lock.wait()
 
-                printNumber(i)
-                self.state = 0
-                self.call_lock.notify_all()
+    def oxygen(self, releaseOxygen: 'Callable[[], None]') -> None:
+        self.oxygen_lock.acquire()
+        self.barrier.wait()
+        # releaseOxygen() outputs "O". Do not change or remove this line.
+        releaseOxygen()
+        self.oxygen_lock.release()
 
 
 if __name__ == "__main__":
-    printNumber = lambda x: print(x)
-    zero_even_odd_obj = ZeroEvenOdd(10)
+    threads = []
+    h2o_obj = H2O()
 
-    thread_1 = Thread(target=zero_even_odd_obj.zero, args=(printNumber,))
-    thread_2 = Thread(target=zero_even_odd_obj.even, args=(printNumber,))
-    thread_3 = Thread(target=zero_even_odd_obj.odd, args=(printNumber,))
+    def releaseOxygen():
+        print("O")
 
-    thread_1.start()
-    thread_2.start()
-    thread_3.start()
+    def releaseHydrogen():
+        print("H")
 
-    thread_1.join()
-    thread_2.join()
-    thread_3.join()
+    input_string = "OHOOHOHHHHOHHOHHHH"
+
+    for s in input_string:
+        if s == "O":
+            threads.append(Thread(target=h2o_obj.oxygen, args=(releaseOxygen,)))
+        else:
+            threads.append(Thread(target=h2o_obj.hydrogen, args=(releaseHydrogen,)))
+    
+    for thread in threads:
+        thread.start()
+
+    for thread in threads:
+        thread.join()
