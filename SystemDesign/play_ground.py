@@ -1,48 +1,40 @@
-from threading import Thread, Semaphore, Barrier
+import concurrent.futures
+import time
+import collections
+from itertools import chain
+import random
 
-class H2O:
+class HTMLParser:
     def __init__(self):
-        self.hydrogen_lock = Semaphore(2)
-        self.oxygen_lock = Semaphore(1)
-        self.barrier = Barrier(3)
+        self.d = {
+            'google.com': ['google.com/topics', 'google.com/maps', 'google.com/search'],
+            'google.com/topics': ['google.com/topics/a', 'google.com/topics/b', 'google.com/topics/c'],
+            'google.com/search': ['google.com/search/a', 'google.com/search/b']
+        }
+
+    def getUrls(self, url):
+        print(f"Waiting for {url}")
+        time.sleep(3)
+        return self.d.get(url, [])
 
 
-    def hydrogen(self, releaseHydrogen: 'Callable[[], None]') -> None:
-        self.hydrogen_lock.acquire()
-        self.barrier.wait()
-        # releaseHydrogen() outputs "H". Do not change or remove this line.
-        releaseHydrogen()
-        self.hydrogen_lock.release()
+def crawl(parser, start_url):
+    explored = set([start_url])
+    queue = collections.deque([start_url])
 
+    while queue:
+        temp_queue = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor: 
+            result = chain(*executor.map(parser.getUrls, queue))
 
-    def oxygen(self, releaseOxygen: 'Callable[[], None]') -> None:
-        self.oxygen_lock.acquire()
-        self.barrier.wait()
-        # releaseOxygen() outputs "O". Do not change or remove this line.
-        releaseOxygen()
-        self.oxygen_lock.release()
+        temp_queue = [node for node in result if node not in explored]
+        explored.update(temp_queue)
+        queue = temp_queue
+
+    return explored
 
 
 if __name__ == "__main__":
-    threads = []
-    h2o_obj = H2O()
+    parser = HTMLParser()
 
-    def releaseOxygen():
-        print("O")
-
-    def releaseHydrogen():
-        print("H")
-
-    input_string = "OHOOHOHHHHOHHOHHHH"
-
-    for s in input_string:
-        if s == "O":
-            threads.append(Thread(target=h2o_obj.oxygen, args=(releaseOxygen,)))
-        else:
-            threads.append(Thread(target=h2o_obj.hydrogen, args=(releaseHydrogen,)))
-    
-    for thread in threads:
-        thread.start()
-
-    for thread in threads:
-        thread.join()
+    print(crawl(parser, 'google.com'))
