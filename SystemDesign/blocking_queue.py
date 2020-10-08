@@ -8,35 +8,35 @@ class blockingQueue:
     def __init__(self, max_size):
         self.max_size = max_size
         self.queue = collections.deque()
+        self.exit_flag = False
 
-        self.produce_lock = threading.Condition()
-        self.consume_lock = threading.Condition()
+        self.lock = threading.Condition()
 
     def push(self, item):
-        self.produce_lock.acquire()
+        self.lock.acquire()
 
-        while len(self.queue) == self.max_size:
-            self.produce_lock.wait()
+        while len(self.queue) == self.max_size and not self.exit_flag:
+            self.lock.wait()
 
-        self.queue.append(item)
-        self.produce_lock.release()
-
-        self.consume_lock.acquire()
-        self.consume_lock.notify_all()
-        self.consume_lock.release()
+        if not self.exit_flag:
+            self.queue.append(item)
+            self.lock.notify_all()
+        
+        self.lock.release()
 
     def get(self):
-        self.consume_lock.acquire()
+        self.lock.acquire()
 
-        while len(self.queue) == 0:
-            self.consume_lock.wait()
+        while len(self.queue) == 0 and not self.exit_flag:
+            self.lock.wait()
 
-        val = self.queue.popleft()
-        self.consume_lock.release()
+        val = None
 
-        self.produce_lock.acquire()
-        self.produce_lock.notify_all()
-        self.produce_lock.release()
+        if not self.exit_flag:
+            val = self.queue.popleft()
+            self.lock.notify_all()
+
+        self.lock.release()
         return val
 
 
@@ -49,8 +49,10 @@ def thread_produce(queue):
 def thread_consume(queue):
     for _ in range(5):
         val = queue.get()
-        print(f"{threading.current_thread().name} got {val} from the queue")
-        time.sleep(1)
+        if val is not None:
+            print(f"{threading.current_thread().name} got {val} from the queue")
+            time.sleep(1)
+    queue.exit_flag = True
 
 
 if __name__ == "__main__":
