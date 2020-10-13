@@ -20,6 +20,7 @@ class UnisexBathroomProblem:
         while (self.sex and self.sex != "M") or self.emps_in_bathroom == self.max_limit:
             self.lock.wait()
 
+        print(f"{name} found an empty spot")
         self.sex = "M"
         self.emps_in_bathroom += 1
         self.lock.notify_all()
@@ -40,6 +41,7 @@ class UnisexBathroomProblem:
         while (self.sex and self.sex != "F") or self.emps_in_bathroom == self.max_limit:
             self.lock.wait()
 
+        print(f"{name} found an empty spot")
         self.sex = "F"
         self.emps_in_bathroom += 1
         self.lock.notify_all()
