@@ -52,3 +52,37 @@ def searchMatrix(self, matrix, target):
             low = mid + 1
     
     return False
+
+def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+    if len(matrix) == 0 or len(matrix[0]) == 0: return False
+    
+    def binary_search_col(target):
+        i, j = 0, len(matrix)
+        
+        while i < j:
+            mid = (i + j) // 2
+            if matrix[mid][0] > target:
+                j = mid
+            else:
+                i = mid + 1
+        
+        return j - 1
+    
+    def binary_search_row(target, ind):
+        i, j = 0, len(matrix[0])
+        
+        while i < j:
+            mid = (i + j) // 2
+            if matrix[ind][mid] > target:
+                j = mid
+            elif matrix[ind][mid] == target:
+                return mid
+            else:
+                i = mid + 1
+        
+        return -1
+    
+    ind = binary_search_col(target)
+    if ind < 0: return False
+    
+    return binary_search_row(target, ind) >= 0
