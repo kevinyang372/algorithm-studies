@@ -53,3 +53,30 @@ def findRepeatedDnaSequences(self, s: str) -> List[str]:
             seen.add(s[sub:sub + 10])
             
     return res
+
+# rolling hash
+def findRepeatedDnaSequences(self, s: str) -> List[str]:
+    if len(s) < 10: return
+    
+    letter_to_num = {'A': 1, 'C': 2, 'G': 3, 'T': 4}
+    r = {}
+    
+    res = 0
+    for i in range(10):
+        res *= 10
+        res += letter_to_num[s[i]]
+    
+    d = collections.Counter()
+    d[res] += 1
+    
+    for j in range(10, len(s)):
+        res %= 10 ** 9
+        res *= 10
+        res += letter_to_num[s[j]]
+        
+        d[res] += 1
+        if res not in r:
+            r[res] = j
+    
+    dnas = [i for i in d if d[i] > 1]
+    return [s[r[dna] - 9:r[dna] + 1] for dna in dnas]
