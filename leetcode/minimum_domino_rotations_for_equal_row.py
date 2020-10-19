@@ -42,3 +42,35 @@ def minDominoRotations(A, B):
            
         
     return min(d[list(s)[0]], length - d[list(s)[0]])
+
+# use dictionary to track
+def minDominoRotations(self, A: List[int], B: List[int]) -> int:
+    if A[0] != B[0]:
+        to_swap = {A[0]: {0: 0, 1: 1}, B[0]: {0: 1, 1: 0}}
+    else:
+        to_swap = {A[0]: {0: 0, 1: 0}}
+    
+    for i in range(1, len(A)):
+        temp = {}
+        if A[i] == B[i]:
+            if A[i] in to_swap:
+                temp[A[i]] = to_swap[A[i]]
+                to_swap = temp
+                continue
+            else:
+                return -1
+        else:
+            if A[i] in to_swap:
+                to_swap[A[i]][1] += 1
+                temp[A[i]] = to_swap[A[i]]
+       
+            if B[i] in to_swap:
+                to_swap[B[i]][0] += 1
+                temp[B[i]] = to_swap[B[i]]
+        
+        if not temp:
+            return -1
+        
+        to_swap = temp
+    
+    return min(min(to_swap[i][0], to_swap[i][1]) for i in to_swap)
