@@ -44,3 +44,23 @@ def cloneGraph(node):
                 stack.append(i)
     
     return d[node.val]
+
+
+# recursive
+def cloneGraph(self, node: 'Node') -> 'Node':
+    if not node: return
+    
+    d = {}
+    
+    def search(node):
+        if node.val in d: return d[node.val]
+        
+        clone = Node(node.val)
+        d[node.val] = clone
+        
+        for neighbor in node.neighbors:
+            clone.neighbors.append(search(neighbor))
+        
+        return clone
+    
+    return search(node)
