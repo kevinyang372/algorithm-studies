@@ -55,3 +55,25 @@ def asteroidCollision(self, asteroids):
             stack.append(i)
     
     return stack
+
+def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+    stack = []
+    
+    for asteroid in asteroids:
+        to_append = True
+        
+        while stack and stack[-1] > 0 and asteroid < 0:
+            if abs(stack[-1]) == abs(asteroid):
+                to_append = False
+                stack.pop()
+                break
+            elif abs(stack[-1]) > abs(asteroid):
+                to_append = False
+                break
+            else:
+                stack.pop()
+        
+        if to_append:
+            stack.append(asteroid)
+    
+    return stack
