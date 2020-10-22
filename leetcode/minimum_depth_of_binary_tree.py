@@ -31,3 +31,16 @@ def minDepth(self, root):
             q.append((node.right, depth + 1))
 
     return
+
+# DFS
+def minDepth(self, root: TreeNode) -> int:
+    if not root: return 0
+    if not root.left and not root.right: return 1
+    
+    left = right = float('inf')
+    if root.left:
+        left = self.minDepth(root.left) + 1
+    if root.right:
+        right = self.minDepth(root.right) + 1
+        
+    return min(left, right)
