@@ -51,3 +51,23 @@ def winnerSquareGame(self, n: int) -> bool:
         return False
     
     return search(n)
+
+
+def winnerSquareGame(self, n: int) -> bool:
+        
+    options = set()
+    d = {}
+    
+    for i in range(1, n + 1):
+        if i ** 2 <= n:
+            options.add(i ** 2)
+            d[i ** 2] = True
+        else:
+            break
+    
+    def search(n):
+        if n in d: return d[n]
+        d[n] = any(not search(n - option) for option in options if option <= n)
+        return d[n]
+    
+    return search(n)
