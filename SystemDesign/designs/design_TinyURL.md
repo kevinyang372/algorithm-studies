@@ -47,7 +47,7 @@ NoSQL is preferred over MySQL due to the following reasons:
 > **User table**\
 > user_id (PK)\
 > api_key\
-> created_at\
+> created_at
 
 > **URL table**\
 > url_id (PK)\
@@ -55,7 +55,7 @@ NoSQL is preferred over MySQL due to the following reasons:
 > original_url\
 > user_id\
 > created_at\
-> expired_at\
+> expired_at
 
 ## Key Generation
 The method we are going to use to generate **unique** and **fixed length** encoded url
