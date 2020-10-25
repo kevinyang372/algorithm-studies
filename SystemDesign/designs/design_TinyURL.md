@@ -16,7 +16,7 @@ Storage:\
 1M * 500 bytes = 500 MB/day
 
 Bandwidth:\
-1M * 100 * 500 bytes / 864000 seconds = 50 KB/s
+1M * 100 * 500 bytes / 86400 seconds = 500 KB/s
 
 ## Key Constraints:
 * Reads traffic are much more heavy than writes.
@@ -44,18 +44,18 @@ NoSQL is preferred over MySQL due to the following reasons:
 * We expect minimum latency when accessing the urls
 * Partition is necessary given the large number of urls
 
-> **User table**
-> user_id (PK)
-> api_key
-> created_at
+> **User table**\
+> user_id (PK)\
+> api_key\
+> created_at\
 
-> **URL table**
-> url_id (PK)
-> shortened_url
-> original_url
-> user_id
-> created_at
-> expired_at
+> **URL table**\
+> url_id (PK)\
+> shortened_url\
+> original_url\
+> user_id\
+> created_at\
+> expired_at\
 
 ## Key Generation
 The method we are going to use to generate **unique** and **fixed length** encoded url
