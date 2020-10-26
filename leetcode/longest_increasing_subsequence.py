@@ -41,3 +41,16 @@ def lengthOfLIS(self, nums):
         size = max(i + 1, size)
 
     return size
+
+# naive O(N^2)
+def lengthOfLIS(self, nums):
+    dp = [1] * len(nums)
+    max_length = 0
+
+    for j in range(len(nums)):
+        for i in range(0, j):
+            if nums[j] > nums[i]:
+                dp[j] = max(dp[j], dp[i] + 1)
+        max_length = max(max_length, dp[j])
+
+    return max_length
