@@ -80,7 +80,7 @@ To filter on the result, we still need to query all servers but the read will be
 * The system should be able to generate any user feed in real time with low latency.
 * The latest tweets should be reflected almost immediately in the feeds.
 
-**API**\
+**API**
 ```
 get_user_feed(api_key, user_id, filters) -> list of tweets
 ```
