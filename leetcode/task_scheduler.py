@@ -52,47 +52,35 @@ def leastInterval(tasks, n):
     return res
 
 
-# Priority Queue, somehow didn't work
+# priority queue
+def leastInterval(self, tasks: List[str], n: int) -> int:
+        d = collections.Counter(tasks)
+        
+        available = [(-d[task], task) for task in d]
+        on_cooldown = collections.deque()
+        
+        heapq.heapify(available)
+        i = 0
+        
+        while available or on_cooldown:
+            while on_cooldown and on_cooldown[0][0] <= i:
+                _, task = on_cooldown.popleft()
+                heapq.heappush(available, (-d[task], task))
+            
+            if not available:
+                i += 1
+                continue
+                
+            _, task_name = heapq.heappop(available)
+            d[task_name] -= 1
+            
+            if d[task_name] != 0:
+                on_cooldown.append((i + n + 1, task_name))
+            
+            i += 1
+        
+        return i
 
-def leastInterval(self, tasks, n):
-    if n == 0: return len(tasks)
-
-    interval = collections.Counter()
-    total = collections.Counter(tasks)
-    prior = []
-
-    for i in total.keys():
-        interval[i] = 0
-        prior.append([total[i], i])
-
-    res = 0
-    prior.sort(reverse=True)
-    
-    while prior:
-        found = False
-        fin = []
-        for v, k in enumerate(prior):
-            if interval[k[1]] <= 0 and not found:
-                res += 1
-                prior[v][0] -= 1
-
-                if prior[v][0] == 0:
-                    fin.append(k)
-
-                interval[k[1]] = n
-                found = True
-            else:
-                interval[k[1]] -= 1
-
-        for i in fin:
-            prior.remove(i)
-            prior.sort(reverse=True)
-            interval.pop(i[1])
-
-        if not found:
-            res += 1
-    
-    return res
 
 from heapq import heappush, heappop
 from collections import Counter
