@@ -60,3 +60,19 @@ class MagicDictionary(object):
             return False
         
         return dfs(self.trie.root, word, False)
+
+# brute-force
+class MagicDictionary:
+
+    def __init__(self):
+        self.find_difference = lambda x, y: sum(1 for ind in range(len(x)) if x[ind] != y[ind])
+        self.d = collections.defaultdict(list)
+        
+
+    def buildDict(self, dictionary: List[str]) -> None:
+        for word in dictionary:
+            self.d[len(word)].append(word)
+        
+
+    def search(self, searchWord: str) -> bool:
+        return any(self.find_difference(word, searchWord) == 1 for word in self.d[len(searchWord)])
