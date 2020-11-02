@@ -57,3 +57,28 @@ def joinResult(res, ind, stack):
             s += joinResult(res, ind - len(i), ["%s %s" % (i, t) for t in stack])
     return s
 
+
+def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+    if not wordDict: return []
+    wordDict = set(wordDict)
+    max_len = len(max(wordDict, key=len))
+    
+    @lru_cache
+    def search(ind, prev):
+        if len(prev) > max_len: return []
+        curr = prev + s[ind]
+        res = []
+        
+        if ind == len(s) - 1:
+            if curr in wordDict:
+                return [curr]
+            else:
+                return []
+        
+        if curr in wordDict:
+            res.extend([f"{curr} {i}" for i in search(ind + 1, '')])
+        
+        res.extend(search(ind + 1, curr))
+        return res
+    
+    return search(0, '')
