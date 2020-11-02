@@ -66,3 +66,36 @@ def insertionSortList(self, head):
         start = temp
     
     return head
+
+def insertionSortList(self, head: ListNode) -> ListNode:
+    if not head: return
+    prev, node = head, head.next
+    
+    while node:
+        next = node.next
+        prev.next = None
+        
+        i, j = None, head
+        while j and j.val < node.val:
+            i, j = j, j.next
+            
+        if i:
+            i.next = node
+        else:
+            head = node
+        
+        if j:
+            node.next = j
+            
+            while j.next:
+                j = j.next
+            
+            j.next = next
+            prev = j
+        else:
+            node.next = next
+            prev = node
+            
+        node = next
+    
+    return head
