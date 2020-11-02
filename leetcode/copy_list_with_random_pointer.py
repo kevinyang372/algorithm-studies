@@ -68,3 +68,19 @@ def copyRandomList(self, head):
         head = head.next
     
     return new_head
+
+def copyRandomList(self, head: 'Node') -> 'Node':
+    node = head
+    
+    d = {}
+    while node:
+        d[node] = Node(node.val)
+        node = node.next
+    
+    node2 = head
+    while node2:
+        d[node2].random = d.get(node2.random, None)
+        d[node2].next = d.get(node2.next, None)
+        node2 = node2.next
+    
+    return d.get(head, None)
