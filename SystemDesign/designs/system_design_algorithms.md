@@ -48,6 +48,9 @@ API Rate Limiting protects the endpoints from exploding request traffic and mali
 **Algorithm Overview**
 1. Leaky Bucket / Token Bucket: Apply a fixed-size queue (FIFO) for requests. Problem: Recent requests could starved out by older requests.
 2. Fixed Window: Limit the request rate in a specific timeframe (one minute for example)
+3. Rolling Window: Consider the time frame of when a request is made plus the time window length
+![image](https://user-images.githubusercontent.com/30107576/97937768-7007db00-1d34-11eb-8afd-1a559b23f7c1.png)
+
 
 ## Quadtree
 **Why Quadtree**
