@@ -53,12 +53,15 @@ API Rate Limiting protects the endpoints from exploding request traffic and mali
 
 
 ## Quadtree
-**Why Quadtree**
+**Why Quadtree**\
 Proximity ordering in O(logN) time -- the algorithm allows for quick fetching of nearest N neigbhors.
 
 **Algorithm Overview**
 1. Recursively divide a geospace into four subspaces and register the points into the corresponding subspaces.
 2. Stop when the number of points one subspaces hold is under a pre-set threshold.
+
+**Finding Neighobring Nodes**\
+We can keep a pointer in each node to access its parent. Since each parent has pointer to all its children, we could expand the search by grouping up results through parent pointers.
 
 **Examples**
 Uber's nearest driver
