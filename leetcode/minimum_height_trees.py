@@ -89,3 +89,37 @@ def findMinHeightTrees(self, n, edges):
         leaves = new_leaves
     
     return list(leaves)
+
+# topological sort
+def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+    graph = collections.defaultdict(list)
+    degree = collections.Counter()
+    
+    for i, v in edges:
+        graph[i].append(v)
+        graph[v].append(i)
+        degree[i] += 1
+        degree[v] += 1
+    
+    min_height_nodes = []
+    max_val = -float('inf')
+    visited = set()
+    
+    queue = collections.deque([(i, 0) for i in range(n) if degree[i] <= 1])
+    while queue:
+        node, h = queue.popleft()
+        visited.add(node)
+        
+        if h > max_val:
+            min_height_nodes = [node]
+            max_val = h
+        elif h == max_val:
+            min_height_nodes.append(node)
+        
+        for sub_sequent_node in graph[node]:
+            degree[sub_sequent_node] -= 1
+            if sub_sequent_node not in visited and degree[sub_sequent_node] == 1:
+                visited.add(sub_sequent_node)
+                queue.append((sub_sequent_node, h + 1))
+    
+    return min_height_nodes
