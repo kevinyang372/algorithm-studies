@@ -25,3 +25,24 @@ def permuteUnique(self, nums):
         return res
     
     return traverse(0, c)
+
+
+# backtracking
+def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        
+    c = collections.Counter(nums)
+    def create_permutation(c):
+        if len(c) == 0: return [[]]
+        
+        res = []
+        k = list(c.keys())
+        
+        for key in k:
+            c[key] -= 1
+            if c[key] == 0: del c[key]
+            res.extend([[key] + l for l in create_permutation(c)])
+            c[key] += 1
+        
+        return res
+    
+    return create_permutation(c)
