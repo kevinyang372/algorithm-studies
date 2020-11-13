@@ -88,3 +88,31 @@ def connect(self, root):
             root = root.next
         root = next
     return head
+
+# iterative more complicated
+def connect(self, root: 'Node') -> 'Node':
+    curr = root # current node
+    prev = None # previous node
+    startNode = None # start node of the next level
+    
+    while curr:
+        if curr.left:
+            if prev: prev.next = curr.left
+            prev = curr.left
+            if not startNode: startNode = curr.left
+        
+        if curr.right:
+            if prev: prev.next = curr.right
+            prev = curr.right
+            if not startNode: startNode = curr.right
+        
+        if curr.next:
+            curr = curr.next
+        elif startNode:
+            curr = startNode
+            prev = None
+            startNode = None
+        else:
+            break
+    
+    return root
