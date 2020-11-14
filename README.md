@@ -1,4 +1,4 @@
-# Elements of Programming Interviews in Python
+# Algorithm Studies
 
 ## 1. Arrays
 
