@@ -26,3 +26,15 @@ def merge(intervals):
             i += 1
     
     return intervals
+
+def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+    intervals.sort()
+    
+    stack = []
+    for i, j in intervals:
+        if not stack or stack[-1][1] < i:
+            stack.append([i, j])
+        else:
+            stack[-1][1] = max(j, stack[-1][1])
+    
+    return stack
