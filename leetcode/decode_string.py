@@ -79,4 +79,27 @@ def decodeString(self, s):
     
     return traverse(s, 0)[1]
 
-
+# iterative
+def decodeString(self, s: str) -> str:
+    stack = []
+    curr = ''
+    
+    for c in s:
+        if c.isdigit():
+            if curr and not curr.isdigit():
+                stack.append(curr)
+                curr = c
+            else:
+                curr += c
+        elif c == '[':
+            stack.append(curr)
+            curr = ''
+        elif c == ']':
+            multiplier = stack.pop()
+            curr = int(multiplier) * curr
+            while stack and not stack[-1].isdigit():
+                curr = stack.pop() + curr
+        else:
+            curr += c
+    
+    return curr
