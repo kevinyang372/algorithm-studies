@@ -54,3 +54,19 @@ def rob(root):
     res = max(rob, notrob)
     cache[root] = res
     return res
+
+# recursive
+def rob(self, root: TreeNode) -> int:
+        
+    @lru_cache
+    def search(node, could_rob):
+        if not node: return 0
+        curr = 0
+        
+        if could_rob:
+            curr = node.val
+            return max(curr + search(node.right, False) + search(node.left, False), search(node.right, True) + search(node.left, True))
+        
+        return search(node.right, True) + search(node.left, True)
+    
+    return search(root, True)
