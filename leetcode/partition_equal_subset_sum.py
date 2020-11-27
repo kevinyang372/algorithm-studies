@@ -47,3 +47,35 @@ def canPartition(nums):
             return True
 
     return False
+
+# TLE
+def canPartition(self, nums: List[int]) -> bool:
+        
+    total = sum(nums)
+    
+    if total % 2 != 0: return False
+    target = total // 2
+    
+    @lru_cache
+    def search(i, curr_sum):
+        if i >= len(nums) or curr_sum > target: return False
+        if curr_sum == target: return True
+        return search(i + 1, curr_sum + nums[i]) or search(i + 1, curr_sum)
+    
+    return search(0, 0)
+
+# 0-1 knapsack
+def canPartition(self, nums: List[int]) -> bool:
+        
+    sums = sum(nums)
+    if sums % 2 != 0: return False
+    
+    target = sums // 2
+    dp = [[False] * (target + 1) for _ in range(len(nums) + 1)]
+    dp[0][0] = True
+    
+    for i in range(1, len(dp)):
+        for j in range(len(dp[0])):
+            dp[i][j] = dp[i - 1][j] or (nums[i - 1] <= j and dp[i - 1][j - nums[i - 1]])
+    
+    return dp[-1][-1]
