@@ -95,3 +95,22 @@ def maxSlidingWindow(self, nums, k):
         res.append(-start[0])
         
     return res
+
+# monotonic array simple solution
+def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+    stack = collections.deque()
+    
+    for i in range(k):
+        while stack and stack[-1] < nums[i]:
+            stack.pop()
+        stack.append(nums[i])
+    
+    res = [stack[0]]
+    for i in range(len(nums) - k):
+        if nums[i] == stack[0]: stack.popleft()
+        while stack and stack[-1] < nums[i + k]:
+            stack.pop()
+        stack.append(nums[i + k])
+        res.append(stack[0])
+        
+    return res
