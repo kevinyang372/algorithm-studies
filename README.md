@@ -1190,3 +1190,35 @@ class LRUCache(object):
         node.next, self.head.next = self.head.next, node
         node.prev, node.next.prev = self.head, node
 ```
+
+### [Reservoir Sampling](https://en.wikipedia.org/wiki/Reservoir_sampling)
+Assume we have a linked list with unknown length, how do we sample one node uniformly from the list in __one pass__?
+* Pick first element (probability 1).
+* Traverse through the linked list. For the kth node, pick it with probability 1/k (replace the current pick).
+```python
+class RandomLinkedListSampler(Object):
+
+    def __init__(self, head: ListNode):
+        """
+        @param head The linked list's head.
+        Note that the head is guaranteed to be not null, so it contains at least one node.
+        """
+        self.head = head
+        
+
+    def getRandom(self) -> int:
+        """
+        Returns a random node's value.
+        """
+        chosen = None
+        node = self.head
+        i = 1
+        
+        while node:
+            if random.random() <= 1/i:
+                chosen = node.val
+            node = node.next
+            i += 1
+        
+        return chosen
+```
