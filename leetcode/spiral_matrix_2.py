@@ -46,3 +46,36 @@ def generateMatrix(n):
         curr += 1
     
     return res
+
+def generateMatrix(self, n: int) -> List[List[int]]:
+    matrix = [[0] * n for _ in range(n)]
+    
+    def next_direction(i, j, direction):
+        d = {
+            0: (0, 1),
+            1: (1, 0),
+            2: (0, -1),
+            3: (-1, 0)
+        }
+        
+        di, dj = d[direction]
+        if 0 <= i + di < n and 0 <= j + dj < n and matrix[i + di][j + dj] == 0:
+            return i + di, j + dj, direction
+        else:
+            direction = (direction + 1) % 4
+            di, dj = d[direction]
+            return i + di, j + dj, direction
+    
+    curr = (1, 0, 0, 0)
+    matrix[0][0] = 1
+    
+    while curr[0] < n ** 2:
+        val, i, j, direction = curr
+        
+        next_i, next_j, next_d = next_direction(i, j, direction)
+        val += 1
+        
+        matrix[next_i][next_j] = val
+        curr = (val, next_i, next_j, next_d)
+    
+    return matrix
