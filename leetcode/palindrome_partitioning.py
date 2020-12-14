@@ -12,17 +12,17 @@
 # ]
 
 
-## MUCH BETTER WAY TO CHECK PALINDROME
-
+# MUCH BETTER WAY TO CHECK PALINDROME
 def ispalin(s):
     return s == s[::-1]
 
-# backtracking
 
+# backtracking
 def partition(s):
     res = []
     dfs(s, [], res)
     return res
+
 
 def dfs(s, path, res):
     if s == '':
@@ -35,10 +35,10 @@ def dfs(s, path, res):
 
 
 # original solution
-
 def partition(s):
 
-    if len(s) < 2: return [[s]]
+    if len(s) < 2:
+        return [[s]]
 
     res = []
     if ispalindrome(s):
@@ -48,12 +48,12 @@ def partition(s):
         temp = sorted([s[0]] + i)
         if temp not in res:
             res.append(temp)
-        
+
     for i in partition(s[:-1]):
         temp = sorted([s[-1]] + i)
         if temp not in res:
             res.append(temp)
-            
+
     return res
 
 
@@ -69,3 +69,21 @@ def ispalindrome(s):
         j -= 1
 
     return True
+
+
+def partition(self, s: str) -> List[List[str]]:
+
+    def check_palindrome(x): return x == x[::-1]
+
+    @lru_cache
+    def get_partitions(i):
+        if i >= len(s):
+            return [[]]
+        result = []
+        for j in range(i + 1, len(s) + 1):
+            par = s[i:j]
+            if check_palindrome(par):
+                result.extend([[par] + remain for remain in get_partitions(j)])
+        return result
+
+    return get_partitions(0)
