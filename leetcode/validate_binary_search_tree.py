@@ -5,7 +5,7 @@
 # The left subtree of a node contains only nodes with keys less than the node's key.
 # The right subtree of a node contains only nodes with keys greater than the node's key.
 # Both the left and right subtrees must also be binary search trees.
- 
+
 
 # Example 1:
 
@@ -36,10 +36,10 @@ class TreeNode:
 
 
 def isValidBST(root: TreeNode, min_val = None, max_val = None) -> bool:
-        
+
     if not root:
         return True
-    
+
     if root.right:
         if root.right.val <= root.val:
             return False
@@ -57,3 +57,14 @@ def isValidBST(root: TreeNode, min_val = None, max_val = None) -> bool:
             return False
 
     return True
+
+
+# more concise version
+def isValidBST(self, root: TreeNode) -> bool:
+    def validate(node, maximum, minimum):
+        if not node:
+            return True
+        if node.val >= maximum or node.val <= minimum:
+            return False
+        return validate(node.left, node.val, minimum) and validate(node.right, maximum, node.val)
+    return validate(root, float('inf'), -float('inf'))
